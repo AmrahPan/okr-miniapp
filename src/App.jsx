@@ -77,13 +77,13 @@ function Section({ title, children, action }) {
 const SCREENS = ["dashboard", "goals", "routines", "guide"];
 
 const GUIDE = [
-  { id: "what", emoji: "🎯", title: "Что такое OKR", body: "OKR = Objectives + Key Results.\n\nObjective — куда идёшь. Амбициозно, вдохновляет.\nKey Result — как поймёшь что дошёл. Всегда число.\nЗадача дня — что делаешь сегодня чтобы сдвинуть KR.\n\nЦепочка: Задача → KR → Objective." },
-  { id: "obj", emoji: "✍️", title: "Как писать Objective", body: "Отвечает на «чего хочу достичь», не «что сделать».\n\n✅ «Вывести Surprise IS на устойчивую выручку»\n✅ «Стать лидером динамического ценообразования в HoReCa»\n\n❌ «Сделать 10 звонков» — задача\n❌ «Увеличить продажи» — размыто\n\nПравило: цель должна немного пугать." },
-  { id: "kr", emoji: "📊", title: "Как писать Key Results", body: "KR — измеримое доказательство. Всегда число. 2–4 KR на цель.\n\n✅ «Подписано 5 ресторанов» (0→5)\n✅ «MRR достиг 250 000 ₽»\n\n❌ «Улучшить отношения» — не измеримо\n❌ «Провести 20 встреч» — активность, не результат\n\nПроверка: «Если KR 100% — цель точно выполнена?»" },
-  { id: "tasks", emoji: "✅", title: "Задачи и KR", body: "Каждая задача должна двигать KR. Если не двигает — зачем?\n\nПравило трёх: максимум 3 задачи в день которые реально сдвигают иглу.\n\nПеред добавлением: «Какой KR это продвигает?»" },
-  { id: "rituals", emoji: "⚡", title: "Рутины OKR", body: "📅 Ежедневно (5 мин): что сделал, что делаю, что блокирует\n\n📋 Еженедельно пн (30 мин): обнови KR, выбери 3 задачи\n\n📊 1-го числа (1 час): оцени траекторию, скорректируй подход\n\n🎯 Раз в квартал (2-3 ч): ретро + новые цели" },
-  { id: "change", emoji: "🔄", title: "Когда менять цели", body: "Objectives — раз в квартал, не чаще.\n\nKR можно скорректировать на monthly check-in если:\n• Цифра изначально нереальна\n• Изменились внешние условия\n• KR не тот — достигается, но цель не приближается\n\nОценка квартала: 0.7–1.0 отлично, 0.4–0.6 нормально, 0–0.3 разбери почему" },
-  { id: "mistakes", emoji: "⚠️", title: "Частые ошибки", body: "❌ Больше 3 целей — теряется фокус\n❌ KR = задача (не число, не результат)\n❌ Не обновлять прогресс раз в неделю\n❌ Только комфортные цели (норма попадания — 70%)\n❌ Задачи без привязки к KR" },
+  { id: "what", emoji: "01", title: "Что такое OKR", body: "OKR = Objectives + Key Results.\n\nObjective — куда идёшь. Амбициозно, вдохновляет.\nKey Result — как поймёшь что дошёл. Всегда число.\nЗадача дня — что делаешь сегодня чтобы сдвинуть KR.\n\nЦепочка: Задача → KR → Objective." },
+  { id: "obj", emoji: "02", title: "Как писать Objective", body: "Отвечает на «чего хочу достичь», не «что сделать».\n\n✅ «Вывести Surprise IS на устойчивую выручку»\n✅ «Стать лидером динамического ценообразования в HoReCa»\n\n❌ «Сделать 10 звонков» — задача\n❌ «Увеличить продажи» — размыто\n\nПравило: цель должна немного пугать." },
+  { id: "kr", emoji: "03", title: "Как писать Key Results", body: "KR — измеримое доказательство. Всегда число. 2–4 KR на цель.\n\n✅ «Подписано 5 ресторанов» (0→5)\n✅ «MRR достиг 250 000 ₽»\n\n❌ «Улучшить отношения» — не измеримо\n❌ «Провести 20 встреч» — активность, не результат\n\nПроверка: «Если KR 100% — цель точно выполнена?»" },
+  { id: "tasks", emoji: "04", title: "Задачи и KR", body: "Каждая задача должна двигать KR. Если не двигает — зачем?\n\nПравило трёх: максимум 3 задачи в день которые реально сдвигают иглу.\n\nПеред добавлением: «Какой KR это продвигает?»" },
+  { id: "rituals", emoji: "05", title: "Рутины OKR", body: "📅 Ежедневно (5 мин): что сделал, что делаю, что блокирует\n\n📋 Еженедельно пн (30 мин): обнови KR, выбери 3 задачи\n\n📊 1-го числа (1 час): оцени траекторию, скорректируй подход\n\n🎯 Раз в квартал (2-3 ч): ретро + новые цели" },
+  { id: "change", emoji: "06", title: "Когда менять цели", body: "Objectives — раз в квартал, не чаще.\n\nKR можно скорректировать на monthly check-in если:\n• Цифра изначально нереальна\n• Изменились внешние условия\n• KR не тот — достигается, но цель не приближается\n\nОценка квартала: 0.7–1.0 отлично, 0.4–0.6 нормально, 0–0.3 разбери почему" },
+  { id: "mistakes", emoji: "07", title: "Частые ошибки", body: "❌ Больше 3 целей — теряется фокус\n❌ KR = задача (не число, не результат)\n❌ Не обновлять прогресс раз в неделю\n❌ Только комфортные цели (норма попадания — 70%)\n❌ Задачи без привязки к KR" },
 ];
 
 function GuideCard({ item }) {
@@ -91,7 +91,7 @@ function GuideCard({ item }) {
   return (
     <div style={{ background: "#0F0F18", border: "1px solid #ffffff08", borderRadius: 14, marginBottom: 8, overflow: "hidden" }}>
       <button onClick={() => setOpen(o => !o)} style={{ width: "100%", background: "none", border: "none", display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", cursor: "pointer", textAlign: "left" }}>
-        <span style={{ fontSize: 18 }}>{item.emoji}</span>
+        <span style={{ fontSize: 11, fontWeight: 700, color: "#6366F1", fontFamily: "monospace", minWidth: 20, textAlign: "center" }}>{item.emoji}</span>
         <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: "#E2E8F0" }}>{item.title}</span>
         <span style={{ color: "#475569", fontSize: 13, transform: open ? "rotate(180deg)" : "none", transition: "0.2s" }}>▾</span>
       </button>
@@ -212,10 +212,10 @@ export default function App() {
     : 0;
 
   const NAV = [
-    { id: "dashboard", icon: "◈", label: "Сегодня" },
-    { id: "goals", icon: "◎", label: "Цели" },
-    { id: "routines", icon: "↻", label: "Рутины" },
-    { id: "guide", icon: "?", label: "Гайд" },
+    { id: "dashboard", label: "Сегодня", svg: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> },
+    { id: "goals", label: "Цели", svg: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="3" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="3" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21" y2="12"/></svg> },
+    { id: "routines", label: "Рутины", svg: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg> },
+    { id: "guide", label: "Гайд", svg: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> },
   ];
 
   return (
@@ -247,7 +247,7 @@ export default function App() {
               </div>
             )}
             {dueRoutines.length > 0 && (
-              <div style={{ background: "#F59E0B18", border: "1px solid #F59E0B33", borderRadius: 8, padding: "5px 10px", fontSize: 11, fontWeight: 700, color: "#F59E0B" }}>⚡{dueRoutines.length}</div>
+              <div style={{ background: "#F59E0B18", border: "1px solid #F59E0B33", borderRadius: 8, padding: "5px 10px", fontSize: 11, fontWeight: 700, color: "#F59E0B" }}>! {dueRoutines.length}</div>
             )}
           </div>
         </div>
@@ -256,7 +256,7 @@ export default function App() {
         <div style={{ display: "flex", background: "#0A0A14", borderRadius: 12, padding: 3, marginBottom: 24, gap: 2 }}>
           {NAV.map(n => (
             <button key={n.id} onClick={() => setScreen(n.id)} style={{ flex: 1, padding: "8px 4px", borderRadius: 10, fontSize: 11, fontWeight: 600, background: screen === n.id ? "#1A1A2E" : "none", color: screen === n.id ? "#E2E8F0" : "#334155", transition: "all 0.15s", display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-              <span style={{ fontSize: 14 }}>{n.icon}</span>
+              {n.svg}
               <span>{n.label}</span>
             </button>
           ))}
@@ -313,7 +313,7 @@ export default function App() {
                       <div style={{ fontSize: 14, color: t.done ? "#1E293B" : "#E2E8F0", textDecoration: t.done ? "line-through" : "none", lineHeight: 1.4 }}>{t.text}</div>
                       {kr && <div style={{ fontSize: 11, color: "#6366F1", marginTop: 2 }}>→ {kr.title}</div>}
                     </div>
-                    <button onClick={() => delTask(t.id)} style={{ color: "#1E293B", fontSize: 18, padding: "0 2px", lineHeight: 1 }}>×</button>
+                    <button onClick={() => delTask(t.id)} style={{ color: "#475569", fontSize: 16, padding: "4px 6px", lineHeight: 1, background: "#1A1A2E", borderRadius: 6 }}>×</button>
                   </div>
                 );
               })}
@@ -357,7 +357,7 @@ export default function App() {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: p>=70?"#22D3EE":p>=40?"#6366F1":"#F59E0B", lineHeight: 1 }}>{p}%</div>
-                      <button onClick={() => delObj(obj.id)} style={{ color: "#1E293B", fontSize: 18, lineHeight: 1, padding: "2px 4px" }}>×</button>
+                      <button onClick={() => delObj(obj.id)} style={{ color: "#475569", fontSize: 16, lineHeight: 1, padding: "4px 6px", background: "#1A1A2E", borderRadius: 6 }}>×</button>
                     </div>
                   </div>
                   <Bar value={p} />
@@ -393,7 +393,7 @@ export default function App() {
                                 </button>
                               )}
                               <span style={{ fontSize: 12, fontWeight: 700, color: k>=70?"#22D3EE":k>=40?"#6366F1":"#F59E0B", minWidth: 34, textAlign: "right" }}>{k}%</span>
-                              <button onClick={() => delKR(obj.id, kr.id)} style={{ color: "#1E293B", fontSize: 16, lineHeight: 1, padding: "0 2px" }}>×</button>
+                              <button onClick={() => delKR(obj.id, kr.id)} style={{ color: "#475569", fontSize: 14, padding: "4px 6px", lineHeight: 1, background: "#1A1A2E", borderRadius: 6 }}>×</button>
                             </div>
                           </div>
                           <Bar value={k} />
