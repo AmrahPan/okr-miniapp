@@ -18,7 +18,54 @@ async function loadFromBot(chatId) {
 
 const STORAGE_KEY = "okr_v4";
 const DEFAULT_DATA = {
-  objectives: [],
+  objectives: [
+    {
+      id: "q3_o1", title: "Запустить Surprise и набрать обороты", quarter: "Q3 2026",
+      keyResults: [
+        { id: "q3_o1_kr1", title: "Открытие состоялось 15 июля", current: 0, target: 1, unit: "факт" },
+        { id: "q3_o1_kr2", title: "Выручка ₽/мес к сентябрю", current: 0, target: 5000000, unit: "₽" },
+        { id: "q3_o1_kr3", title: "Рентабельность к сентябрю", current: 0, target: 18, unit: "%" },
+      ]
+    },
+    {
+      id: "q3_o2", title: "Ordery — первые продажи и внедрения", quarter: "Q3 2026",
+      keyResults: [
+        { id: "q3_o2_kr1", title: "Платящих ресторанов подключено", current: 0, target: 10, unit: "клиентов" },
+        { id: "q3_o2_kr2", title: "MRR покрывает команду", current: 0, target: 500000, unit: "₽" },
+        { id: "q3_o2_kr3", title: "Клиент прошёл полный цикл внедрения", current: 0, target: 1, unit: "факт" },
+      ]
+    },
+    {
+      id: "q3_o3", title: "Личная чистая прибыль 300 000 ₽/мес", quarter: "Q3 2026",
+      keyResults: [
+        { id: "q3_o3_kr1", title: "Чистая прибыль со всех проектов в сентябре", current: 0, target: 300000, unit: "₽" },
+      ]
+    },
+    {
+      id: "q4_o1", title: "Surprise — 8 млн выручки и старт второй точки", quarter: "Q4 2026",
+      keyResults: [
+        { id: "q4_o1_kr1", title: "Выручка к декабрю", current: 0, target: 8000000, unit: "₽" },
+        { id: "q4_o1_kr2", title: "Рентабельность", current: 0, target: 20, unit: "%" },
+        { id: "q4_o1_kr3", title: "Договор на вторую точку подписан", current: 0, target: 1, unit: "факт" },
+      ]
+    },
+    {
+      id: "q4_o2", title: "Ordery — масштабирование продаж", quarter: "Q4 2026",
+      keyResults: [
+        { id: "q4_o2_kr1", title: "Платящих клиентов", current: 0, target: 15, unit: "клиентов" },
+        { id: "q4_o2_kr2", title: "MRR", current: 0, target: 450000, unit: "₽" },
+        { id: "q4_o2_kr3", title: "Внедрений с подтверждённым ROI", current: 0, target: 3, unit: "штук" },
+      ]
+    },
+    {
+      id: "q4_o3", title: "Личная чистая прибыль 600 000 ₽/мес", quarter: "Q4 2026",
+      keyResults: [
+        { id: "q4_o3_kr1", title: "Чистая прибыль со всех проектов в декабре", current: 0, target: 600000, unit: "₽" },
+        { id: "q4_o3_kr2", title: "Surprise чистыми", current: 0, target: 300000, unit: "₽" },
+        { id: "q4_o3_kr3", title: "Ordery чистыми", current: 0, target: 200000, unit: "₽" },
+      ]
+    },
+  ],
   todayTasks: [],
   routines: [
     { id: "r1", title: "Daily standup", frequency: "daily", lastDone: null, description: "5 мин: что сделал, что делаю, что блокирует" },
