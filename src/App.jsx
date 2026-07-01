@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 const tg = window?.Telegram?.WebApp || null;
 const BOT_API = import.meta.env.VITE_BOT_API_URL || "";
-const CS_KEY = "okr_data_v1";
+const CS_KEY = "okr_data_v2"; // bumped to force reload defaults
 
 function getTgChatId() {
   try { return tg?.initDataUnsafe?.user?.id?.toString() || null; } catch { return null; }
@@ -38,7 +38,7 @@ async function loadFromBot(chatId) {
   return null;
 }
 
-const STORAGE_KEY = "okr_v4";
+const STORAGE_KEY = "okr_v5"; // bumped to force reload defaults
 const DEFAULT_DATA = {
   objectives: [
     {
