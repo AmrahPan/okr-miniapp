@@ -2,10 +2,32 @@ import { useState, useEffect, useCallback } from "react";
 
 const tg = window?.Telegram?.WebApp || null;
 const BOT_API = import.meta.env.VITE_BOT_API_URL || "";
+const CS_KEY = "okr_data_v1";
 
 function getTgChatId() {
   try { return tg?.initDataUnsafe?.user?.id?.toString() || null; } catch { return null; }
 }
+
+// Telegram CloudStorage — синхронизируется между устройствами автоматически
+function csSet(data) {
+  return new Promise((resolve) => {
+    if (tg?.CloudStorage?.setItem) {
+      tg.CloudStorage.setItem(CS_KEY, JSON.stringify(data), () => resolve());
+    } else { resolve(); }
+  });
+}
+function csGet() {
+  return new Promise((resolve) => {
+    if (tg?.CloudStorage?.getItem) {
+      tg.CloudStorage.getItem(CS_KEY, (err, val) => {
+        if (!err && val) { try { resolve(JSON.parse(val)); return; } catch {} }
+        resolve(null);
+      });
+    } else { resolve(null); }
+  });
+}
+
+// Fallback: бот API
 async function syncToBot(chatId, data) {
   if (!chatId || !BOT_API) return;
   try { await fetch(`${BOT_API}/sync/${chatId}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }); } catch {}
@@ -185,27 +207,49 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!chatId) return;
     setSyncing(true);
-    loadFromBot(chatId).then(remote => {
-      if (remote) {
+    // Сначала пробуем Telegram CloudStorage (синхронизируется между устройствами)
+    csGet().then(cloud => {
+      if (cloud && (cloud.objectives?.length || cloud.todayTasks?.length)) {
         setData(prev => {
           const merged = {
-            objectives: remote.objectives ?? prev.objectives ?? [],
-            todayTasks: remote.todayTasks ?? prev.todayTasks ?? [],
-            routines: remote.routines ?? prev.routines ?? DEFAULT_DATA.routines,
+            objectives: cloud.objectives ?? prev.objectives ?? [],
+            todayTasks: cloud.todayTasks ?? prev.todayTasks ?? [],
+            routines: cloud.routines ?? prev.routines ?? DEFAULT_DATA.routines,
           };
           saveLocal(merged);
           return merged;
         });
+        setSyncing(false);
+        return;
       }
-    }).catch(() => {}).finally(() => setSyncing(false));
+      // Fallback: бот API
+      if (chatId) {
+        loadFromBot(chatId).then(remote => {
+          if (remote && (remote.objectives?.length || remote.todayTasks?.length)) {
+            setData(prev => {
+              const merged = {
+                objectives: remote.objectives ?? prev.objectives ?? [],
+                todayTasks: remote.todayTasks ?? prev.todayTasks ?? [],
+                routines: remote.routines ?? prev.routines ?? DEFAULT_DATA.routines,
+              };
+              saveLocal(merged);
+              csSet(merged);
+              return merged;
+            });
+          }
+        }).catch(() => {}).finally(() => setSyncing(false));
+      } else {
+        setSyncing(false);
+      }
+    }).catch(() => setSyncing(false));
   }, [chatId]);
 
   const upd = useCallback((fn) => {
     setData(prev => {
       const next = fn(JSON.parse(JSON.stringify(prev)));
       saveLocal(next);
+      csSet(next); // Telegram CloudStorage — синхронизация между устройствами
       if (chatId) syncToBot(chatId, next);
       return next;
     });
