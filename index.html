@@ -9,6 +9,7 @@
 :root{
   --bg:#FFFFFF;--s2:#F7F8FA;--s3:#F1F3F5;--border:#E5E7EB;--b2:#D1D5DB;
   --text:#111827;--t2:#4B5563;--t3:#9CA3AF;--accent:#6366F1;
+  --green:#16A34A;--green-bg:#DCFCE7;--amber:#D97706;--amber-bg:#FEF3C7;--red:#DC2626;--red-bg:#FEE2E2;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:12px;line-height:1.5;}
@@ -16,11 +17,10 @@ button{cursor:pointer;font-family:inherit;border:none;background:none;}
 ::-webkit-scrollbar{width:8px;height:8px;}
 ::-webkit-scrollbar-track{background:var(--s2);}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:99px;}
-::-webkit-scrollbar-thumb:hover{background:var(--t3);}
 
-.top{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg);}
+.top{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
 .top-l{display:flex;align-items:center;gap:12px;}
-.top-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--s3);color:var(--text);}
+.top-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--s3);}
 .top-goal{font-size:14px;font-weight:600;}
 .top-goal span{font-size:11px;color:var(--t3);font-weight:400;margin-left:8px;}
 .top-r{display:flex;align-items:center;gap:12px;}
@@ -32,43 +32,48 @@ button{cursor:pointer;font-family:inherit;border:none;background:none;}
 table{border-collapse:separate;border-spacing:0;min-width:max-content;}
 th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border);vertical-align:top;text-align:left;}
 
-/* Frozen left columns */
-.c-obj{position:sticky;left:0;z-index:5;background:var(--s2);min-width:130px;max-width:130px;padding:10px 11px;}
-.c-goal{position:sticky;left:130px;z-index:5;background:var(--s2);min-width:170px;max-width:170px;padding:10px 11px;}
-.c-kr{position:sticky;left:300px;z-index:5;background:var(--s2);min-width:150px;max-width:150px;padding:10px 11px;border-right:2px solid var(--b2);}
+.c-obj{position:sticky;left:0;z-index:5;background:var(--s2);min-width:130px;max-width:130px;padding:9px 11px;}
+.c-goal{position:sticky;left:130px;z-index:5;background:var(--s2);min-width:165px;max-width:165px;padding:9px 11px;}
+.c-kr{position:sticky;left:295px;z-index:5;background:var(--s2);min-width:150px;max-width:150px;padding:9px 11px;border-right:2px solid var(--b2);}
 
-/* Month header (row 1) */
-.month-hd{position:sticky;top:0;z-index:6;background:var(--text);color:#fff;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:8px 10px;text-align:center;border-right:2px solid var(--bg);}
-/* Week header (row 2) */
-.week-hd{position:sticky;top:33px;z-index:6;background:var(--s3);font-size:10px;font-weight:600;color:var(--t2);padding:6px 6px;text-align:center;min-width:120px;max-width:120px;}
-.week-hd.mstart{border-left:2px solid var(--b2);}
+.hd{position:sticky;top:0;z-index:6;background:var(--s3);font-size:10px;font-weight:700;letter-spacing:.3px;color:var(--t3);padding:8px 11px;text-transform:uppercase;}
+.hd-corner{z-index:8!important;}
+.week-hd{position:sticky;top:0;z-index:6;background:var(--s3);font-size:10px;font-weight:600;color:var(--t2);padding:8px 8px;text-align:center;min-width:140px;max-width:140px;}
 
-/* Corner frozen headers */
-.corner{position:sticky;left:0;z-index:8;background:var(--s3);}
-.corner1{position:sticky;left:130px;z-index:8;background:var(--s3);}
-.corner2{position:sticky;left:300px;z-index:8;background:var(--s3);border-right:2px solid var(--b2);}
-.hd-lbl{font-size:10px;font-weight:700;letter-spacing:.3px;color:var(--t3);text-transform:uppercase;padding:8px 11px;}
+.month-band td{position:sticky;left:0;background:var(--text);color:#fff;font-size:11px;font-weight:700;letter-spacing:.5px;padding:7px 11px;z-index:4;text-transform:uppercase;}
 
-/* Object */
-.obj{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.obj{font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px;}
 .obj-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-.cell-text{font-size:10px;color:var(--t2);line-height:1.45;}
+.cell-text{font-size:10px;color:var(--t2);line-height:1.4;}
+.kr-text{font-size:10px;color:var(--accent);font-weight:600;line-height:1.4;}
 
-/* Editable */
-.cell{min-width:120px;max-width:120px;padding:7px 9px;font-size:10px;line-height:1.45;color:var(--t2);cursor:text;background:var(--bg);}
-.cell.mstart{border-left:2px solid var(--b2);}
-.cell:hover{background:var(--s2);}
-.cell:focus{outline:2px solid var(--accent);outline-offset:-2px;background:#fff;color:var(--text);}
-.cell.filled{color:var(--text);}
-.editable{cursor:text;}
+/* Week status cell */
+.wcell{min-width:140px;max-width:140px;padding:0;cursor:pointer;position:relative;background:var(--bg);vertical-align:top;}
+.wcell-inner{padding:6px 8px 6px 8px;min-height:44px;display:flex;flex-direction:column;gap:3px;}
+.wcell.s-green .wcell-inner{background:var(--green-bg);}
+.wcell.s-amber .wcell-inner{background:var(--amber-bg);}
+.wcell.s-red .wcell-inner{background:var(--red-bg);}
+.wcell-dots{display:flex;gap:3px;opacity:0;transition:opacity .1s;}
+.wcell:hover .wcell-dots{opacity:1;}
+.sdot{width:12px;height:12px;border-radius:50%;cursor:pointer;border:1px solid rgba(0,0,0,.1);}
+.sdot-g{background:var(--green);}
+.sdot-a{background:var(--amber);}
+.sdot-r{background:var(--red);}
+.sdot-x{background:var(--bg);border:1px solid var(--b2);position:relative;}
+.sdot-x::after{content:'×';position:absolute;top:-3px;left:2px;font-size:11px;color:var(--t3);}
+.wcell-txt{font-size:10px;line-height:1.4;color:var(--text);outline:none;min-height:16px;}
+.wcell-txt:empty::before{content:'…';color:var(--t3);}
+.wcell-txt:focus{color:var(--text);}
+.status-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+.sb-green{color:var(--green);}
+.sb-amber{color:var(--amber);}
+.sb-red{color:var(--red);}
+
 .editable:focus{outline:2px solid var(--accent);outline-offset:-2px;background:#fff;}
 
-/* KR progressive row inside object */
-.kr-month-row td{background:var(--s2);}
-.kr-month-cell{min-width:120px;max-width:120px;padding:5px 9px;font-size:10px;font-weight:600;color:var(--accent);line-height:1.4;background:#F5F6FF;}
-.kr-month-cell.mstart{border-left:2px solid var(--b2);}
-.kr-label{position:sticky;left:0;z-index:5;background:#F5F6FF;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--accent);padding:5px 11px;}
-.kr-label-span{position:sticky;left:0;z-index:5;background:#F5F6FF;}
+.legend{padding:8px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--t3);display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:5px;}
+.leg-dot{width:10px;height:10px;border-radius:50%;}
 </style>
 </head>
 <body>
@@ -89,47 +94,44 @@ th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border)
   <table id="tbl"></table>
 </div>
 
+<div class="legend">
+  <span style="font-weight:600;color:var(--t2)">Клик по ячейке → выбери статус, потом впиши что удалось / что ограничило:</span>
+  <span class="leg-item"><span class="leg-dot sdot-g"></span> Продвинулся по плану</span>
+  <span class="leg-item"><span class="leg-dot sdot-a"></span> Частично / есть проблемы</span>
+  <span class="leg-item"><span class="leg-dot sdot-r"></span> Застряло / ограничение</span>
+</div>
+
 <script>
-const K='okr_horizontal_2026';
+const K='okr_status_2026';
 
 let OBJECTS=[
-  {id:'sur1',tag:'Surprise #1',color:'#6366F1',goal:'Открыть и стабилизировать первую точку',kr:'250 000 ₽ чистыми/мес'},
-  {id:'ordery',tag:'Ordery',color:'#10B981',goal:'CTO + внедрения → масштаб продаж',kr:'750 000 ₽ чистыми/мес'},
-  {id:'sur2',tag:'Surprise #2',color:'#0EA5E9',goal:'Открыть вторую точку',kr:'250 000 ₽ чистыми/мес'},
-  {id:'sur3',tag:'Surprise #3',color:'#8B5CF6',goal:'Открыть третью точку',kr:'250 000 ₽ чистыми/мес'},
+  {id:'sur1',tag:'Surprise #1',color:'#6366F1',goal:'Открыть и стабилизировать первую точку'},
+  {id:'ordery',tag:'Ordery',color:'#10B981',goal:'CTO + внедрения → масштаб продаж'},
+  {id:'sur2',tag:'Surprise #2',color:'#0EA5E9',goal:'Открыть вторую точку'},
+  {id:'sur3',tag:'Surprise #3',color:'#8B5CF6',goal:'Открыть третью точку'},
 ];
 
-// Horizontal: months Jul → Dec, each with 4 weeks
 const MONTHS=[
-  {key:'jul',label:'Июль 2026'},
-  {key:'aug',label:'Август 2026'},
-  {key:'sep',label:'Сентябрь 2026'},
-  {key:'oct',label:'Октябрь 2026'},
-  {key:'nov',label:'Ноябрь 2026'},
   {key:'dec',label:'Декабрь 2026'},
+  {key:'nov',label:'Ноябрь 2026'},
+  {key:'oct',label:'Октябрь 2026'},
+  {key:'sep',label:'Сентябрь 2026'},
+  {key:'aug',label:'Август 2026'},
+  {key:'jul',label:'Июль 2026'},
 ];
 const WEEKS=['1','8','15','22'];
 
-// Progressive monthly KR (shown as a highlighted row under each object)
+// Прогрессивная цель месяца (колонка КР)
 const MONTH_KR={
-  sur1:{jul:'Открытие · выход в плюс',aug:'100 000 ₽',sep:'150 000 ₽',oct:'200 000 ₽',nov:'250 000 ₽',dec:'250 000 ₽'},
-  ordery:{jul:'Воронка тёплых',aug:'CTO нанят',sep:'3–5 клиентов',oct:'8–10 клиентов',nov:'15 клиентов',dec:'20 клиентов'},
-  sur2:{jul:'—',aug:'—',sep:'Локация',oct:'Договор + проект',nov:'Открытие',dec:'100 000 ₽'},
-  sur3:{jul:'—',aug:'—',sep:'—',oct:'—',nov:'Локация',dec:'Договор'},
-};
-
-const SEED={
-  'sur1|jul|15':'Открытие 15–20 июля',
-  'sur1|jul|22':'Стабилизация операционки',
-  'ordery|jul|1':'Держу переговоры с ресторанами',
-  'ordery|aug|1':'Активный найм CTO',
-  'sur2|sep|1':'Поиск локации #2',
-  'sur3|nov|1':'Поиск локации #3',
+  sur1:{jul:'Открытие 15–20 июля · выход в плюс',aug:'100 000 ₽ чистыми',sep:'150 000 ₽ чистыми',oct:'200 000 ₽ чистыми',nov:'250 000 ₽ чистыми',dec:'250 000 ₽ стабильно'},
+  ordery:{jul:'Держу воронку рестораннов',aug:'CTO нанят',sep:'3–5 клиентов',oct:'8–10 клиентов',nov:'15 клиентов',dec:'20 клиентов'},
+  sur2:{jul:'—',aug:'—',sep:'Локация найдена',oct:'Договор + проектирование',nov:'Открытие',dec:'100 000 ₽ первый месяц'},
+  sur3:{jul:'—',aug:'—',sep:'—',oct:'—',nov:'Поиск локации',dec:'Договор подписан'},
 };
 
 function load(){
   try{const r=localStorage.getItem(K);if(r){const p=JSON.parse(r);if(p.objects)OBJECTS=p.objects;return p.data||{};}}catch{}
-  return {...SEED};
+  return {};
 }
 function save(){
   localStorage.setItem(K,JSON.stringify({objects:OBJECTS,data:DATA}));
@@ -137,89 +139,93 @@ function save(){
 }
 let DATA=load();
 
-function mkr(id,mk){
-  if(DATA[id+'|'+mk+'|_mkr']!==undefined)return DATA[id+'|'+mk+'|_mkr'];
+function getKR(id,mk){
+  if(DATA[id+'|'+mk+'|_kr']!==undefined)return DATA[id+'|'+mk+'|_kr'];
   return (MONTH_KR[id]&&MONTH_KR[id][mk])?MONTH_KR[id][mk]:'';
 }
+function getGoal(id){
+  if(DATA[id+'|_goal']!==undefined)return DATA[id+'|_goal'];
+  const o=OBJECTS.find(x=>x.id===id);return o?o.goal:'';
+}
+function getCell(key){return DATA[key]||{status:'',text:''};}
 
 function build(){
-  let h='<thead>';
-  // Row 1: months
-  h+='<tr>';
-  h+='<th class="corner month-hd" style="background:var(--s3);color:var(--t3)"><div class="hd-lbl">Объект</div></th>';
-  h+='<th class="corner1 month-hd" style="background:var(--s3);color:var(--t3);top:0"><div class="hd-lbl">Цель</div></th>';
-  h+='<th class="corner2 month-hd" style="background:var(--s3);color:var(--t3);top:0"><div class="hd-lbl">Ключевой результат</div></th>';
-  MONTHS.forEach(m=>{
-    h+=`<th class="month-hd" colspan="${WEEKS.length}">${m.label}</th>`;
-  });
-  h+='</tr>';
-  // Row 2: weeks
-  h+='<tr>';
-  h+='<th class="corner week-hd" style="top:33px;background:var(--s3)"></th>';
-  h+='<th class="corner1 week-hd" style="top:33px;left:130px;background:var(--s3)"></th>';
-  h+='<th class="corner2 week-hd" style="top:33px;left:300px;background:var(--s3)"></th>';
-  MONTHS.forEach(m=>{
-    WEEKS.forEach((w,wi)=>{
-      h+=`<th class="week-hd ${wi===0?'mstart':''}">нед ${w}</th>`;
-    });
-  });
-  h+='</tr>';
-  h+='</thead><tbody>';
+  let h='<thead><tr>';
+  h+='<th class="hd hd-corner c-obj">Объект</th>';
+  h+='<th class="hd hd-corner c-goal">Цель</th>';
+  h+='<th class="hd hd-corner c-kr">Цель месяца (KR)</th>';
+  WEEKS.forEach(w=>{h+=`<th class="week-hd">Неделя ${w}</th>`;});
+  h+='</tr></thead><tbody>';
 
-  OBJECTS.forEach(o=>{
-    // Main object row (weekly cells)
-    h+='<tr>';
-    h+=`<td class="c-obj"><div class="obj"><span class="obj-dot" style="background:${o.color}"></span>${o.tag}</div></td>`;
-    h+=`<td class="c-goal editable" contenteditable="true" data-key="${o.id}|goal" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${DATA[o.id+'|goal']??o.goal}</span></td>`;
-    h+=`<td class="c-kr editable" contenteditable="true" data-key="${o.id}|kr" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${DATA[o.id+'|kr']??o.kr}</span></td>`;
-    MONTHS.forEach(m=>{
-      WEEKS.forEach((w,wi)=>{
+  MONTHS.forEach(m=>{
+    h+=`<tr class="month-band"><td colspan="${3+WEEKS.length}">${m.label} · Sprint review</td></tr>`;
+    OBJECTS.forEach(o=>{
+      h+='<tr>';
+      h+=`<td class="c-obj"><div class="obj"><span class="obj-dot" style="background:${o.color}"></span>${o.tag}</div></td>`;
+      h+=`<td class="c-goal editable" contenteditable="true" data-goal="${o.id}" oninput="onGoalEdit(this,'${o.id}')" spellcheck="false"><span class="cell-text">${getGoal(o.id)}</span></td>`;
+      h+=`<td class="c-kr editable" contenteditable="true" data-kr="${o.id}|${m.key}" oninput="onKREdit(this,'${o.id}','${m.key}')" spellcheck="false"><span class="kr-text">${getKR(o.id,m.key)}</span></td>`;
+      WEEKS.forEach(w=>{
         const key=`${o.id}|${m.key}|${w}`;
-        const val=DATA[key]||'';
-        h+=`<td class="cell ${val?'filled':''} ${wi===0?'mstart':''}" contenteditable="true" data-key="${key}" oninput="onEdit(this)" spellcheck="false">${val}</td>`;
+        const c=getCell(key);
+        const scls=c.status?'s-'+c.status:'';
+        const badge=c.status==='green'?'<span class="status-badge sb-green">✓ по плану</span>':c.status==='amber'?'<span class="status-badge sb-amber">~ частично</span>':c.status==='red'?'<span class="status-badge sb-red">✕ застряло</span>':'';
+        h+=`<td class="wcell ${scls}" data-key="${key}">
+          <div class="wcell-inner">
+            <div class="wcell-dots">
+              <span class="sdot sdot-g" onclick="setStatus(event,'${key}','green')" title="По плану"></span>
+              <span class="sdot sdot-a" onclick="setStatus(event,'${key}','amber')" title="Частично"></span>
+              <span class="sdot sdot-r" onclick="setStatus(event,'${key}','red')" title="Застряло"></span>
+              <span class="sdot sdot-x" onclick="setStatus(event,'${key}','')" title="Сбросить"></span>
+            </div>
+            ${badge}
+            <div class="wcell-txt" contenteditable="true" onblur="onCellText('${key}',this)" onclick="event.stopPropagation()" spellcheck="false">${c.text||''}</div>
+          </div>
+        </td>`;
       });
+      h+='</tr>';
     });
-    h+='</tr>';
-    // KR-per-month row (highlighted)
-    h+='<tr class="kr-month-row">';
-    h+=`<td class="kr-label" style="border-right:none">Цель месяца →</td>`;
-    h+=`<td class="kr-label-span" style="left:130px"></td>`;
-    h+=`<td class="kr-label-span" style="left:300px;border-right:2px solid var(--b2)"></td>`;
-    MONTHS.forEach(m=>{
-      const val=mkr(o.id,m.key);
-      // span all 4 weeks of the month
-      h+=`<td class="kr-month-cell mstart" colspan="${WEEKS.length}" contenteditable="true" data-key="${o.id}|${m.key}|_mkr" oninput="onEdit(this)" spellcheck="false">${val}</td>`;
-    });
-    h+='</tr>';
   });
   h+='</tbody>';
   document.getElementById('tbl').innerHTML=h;
 }
 
-function onEdit(el){
-  const key=el.getAttribute('data-key');
-  const val=el.textContent.trim();
-  if(val)DATA[key]=val; else delete DATA[key];
-  if(el.classList.contains('cell'))el.classList.toggle('filled',!!val);
+function setStatus(e,key,status){
+  e.stopPropagation();
+  const c=getCell(key);
+  c.status=status;
+  DATA[key]=c;
+  save();build();
+}
+function onCellText(key,el){
+  const c=getCell(key);
+  c.text=el.textContent.trim();
+  if(!c.status&&!c.text)delete DATA[key]; else DATA[key]=c;
   save();
+}
+function onGoalEdit(el,id){
+  DATA[id+'|_goal']=el.textContent.trim();save();
+}
+function onKREdit(el,id,mk){
+  DATA[id+'|'+mk+'|_kr']=el.textContent.trim();save();
 }
 
 function addObject(){
-  const tag=prompt('Название объекта:');
-  if(!tag)return;
-  const colors=['#EC4899','#F59E0B','#14B8A6','#EF4444','#3B82F6','#8B5CF6'];
-  OBJECTS.push({id:'obj'+Date.now(),tag,color:colors[OBJECTS.length%colors.length],goal:'',kr:''});
+  const tag=prompt('Название объекта:');if(!tag)return;
+  const colors=['#EC4899','#F59E0B','#14B8A6','#EF4444','#3B82F6'];
+  OBJECTS.push({id:'obj'+Date.now(),tag,color:colors[OBJECTS.length%colors.length],goal:''});
   save();build();
 }
-
 function exportData(){
-  let csv='Объект,Цель,КР';
-  MONTHS.forEach(m=>WEEKS.forEach(w=>csv+=`,${m.label} нед${w}`));
+  const smap={green:'ПО ПЛАНУ',amber:'ЧАСТИЧНО',red:'ЗАСТРЯЛО','':''};
+  let csv='Месяц,Объект,Цель,Цель месяца';
+  WEEKS.forEach(w=>csv+=`,Неделя ${w} статус,Неделя ${w} текст`);
   csv+='\n';
-  OBJECTS.forEach(o=>{
-    const cells=[o.tag,DATA[o.id+'|goal']??o.goal,DATA[o.id+'|kr']??o.kr];
-    MONTHS.forEach(m=>WEEKS.forEach(w=>cells.push(DATA[`${o.id}|${m.key}|${w}`]||'')));
-    csv+=cells.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(',')+'\n';
+  MONTHS.forEach(m=>{
+    OBJECTS.forEach(o=>{
+      const cells=[m.label,o.tag,getGoal(o.id),getKR(o.id,m.key)];
+      WEEKS.forEach(w=>{const c=getCell(`${o.id}|${m.key}|${w}`);cells.push(smap[c.status||'']);cells.push(c.text||'');});
+      csv+=cells.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(',')+'\n';
+    });
   });
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='okr_2026.csv';a.click();
