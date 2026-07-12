@@ -8,19 +8,17 @@
 <style>
 :root{
   --bg:#FFFFFF;--s2:#F7F8FA;--s3:#F1F3F5;--border:#E5E7EB;--b2:#D1D5DB;
-  --text:#111827;--t2:#4B5563;--t3:#9CA3AF;
-  --accent:#6366F1;
+  --text:#111827;--t2:#4B5563;--t3:#9CA3AF;--accent:#6366F1;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:12px;line-height:1.5;}
 button{cursor:pointer;font-family:inherit;border:none;background:none;}
-input{font-family:inherit;}
 ::-webkit-scrollbar{width:8px;height:8px;}
 ::-webkit-scrollbar-track{background:var(--s2);}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:99px;}
 ::-webkit-scrollbar-thumb:hover{background:var(--t3);}
 
-.top{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg);position:sticky;top:0;z-index:10;}
+.top{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg);}
 .top-l{display:flex;align-items:center;gap:12px;}
 .top-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--s3);color:var(--text);}
 .top-goal{font-size:14px;font-weight:600;}
@@ -29,45 +27,48 @@ input{font-family:inherit;}
 .saved{font-size:11px;color:var(--t3);}
 .btn{font-size:12px;font-weight:500;padding:6px 12px;border-radius:7px;border:1px solid var(--border);color:var(--t2);transition:all .12s;}
 .btn:hover{background:var(--s2);color:var(--text);}
-.btn-p{background:var(--accent);color:#fff;border-color:var(--accent);}
-.btn-p:hover{background:#4F46E5;color:#fff;}
 
 .scroll{overflow:auto;height:calc(100vh - 60px);}
 table{border-collapse:separate;border-spacing:0;min-width:max-content;}
 th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border);vertical-align:top;text-align:left;}
 
-/* Frozen columns */
-.c-obj{position:sticky;left:0;z-index:5;background:var(--s2);min-width:120px;max-width:120px;padding:9px 11px;}
-.c-goal{position:sticky;left:120px;z-index:5;background:var(--s2);min-width:160px;max-width:160px;padding:9px 11px;}
-.c-krq{position:sticky;left:280px;z-index:5;background:var(--s2);min-width:140px;max-width:140px;padding:9px 11px;}
-.c-krn{position:sticky;left:420px;z-index:5;background:var(--s2);min-width:120px;max-width:120px;padding:9px 11px;border-right:2px solid var(--b2);}
+/* Frozen left columns */
+.c-obj{position:sticky;left:0;z-index:5;background:var(--s2);min-width:130px;max-width:130px;padding:10px 11px;}
+.c-goal{position:sticky;left:130px;z-index:5;background:var(--s2);min-width:170px;max-width:170px;padding:10px 11px;}
+.c-kr{position:sticky;left:300px;z-index:5;background:var(--s2);min-width:150px;max-width:150px;padding:10px 11px;border-right:2px solid var(--b2);}
 
-/* Headers */
-.hd{position:sticky;top:0;z-index:6;background:var(--s3);font-size:10px;font-weight:700;letter-spacing:.3px;color:var(--t3);padding:8px 10px;text-transform:uppercase;}
-.hd-corner{z-index:8!important;}
-.week-hd{position:sticky;top:0;z-index:6;background:var(--s3);font-size:10px;font-weight:600;color:var(--t2);padding:8px 8px;text-align:center;min-width:150px;max-width:150px;}
+/* Month header (row 1) */
+.month-hd{position:sticky;top:0;z-index:6;background:var(--text);color:#fff;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:8px 10px;text-align:center;border-right:2px solid var(--bg);}
+/* Week header (row 2) */
+.week-hd{position:sticky;top:33px;z-index:6;background:var(--s3);font-size:10px;font-weight:600;color:var(--t2);padding:6px 6px;text-align:center;min-width:120px;max-width:120px;}
+.week-hd.mstart{border-left:2px solid var(--b2);}
 
-/* Month band */
-.month-band td{position:sticky;left:0;background:var(--text);color:#fff;font-size:11px;font-weight:700;letter-spacing:.5px;padding:7px 11px;z-index:4;text-transform:uppercase;}
+/* Corner frozen headers */
+.corner{position:sticky;left:0;z-index:8;background:var(--s3);}
+.corner1{position:sticky;left:130px;z-index:8;background:var(--s3);}
+.corner2{position:sticky;left:300px;z-index:8;background:var(--s3);border-right:2px solid var(--b2);}
+.hd-lbl{font-size:10px;font-weight:700;letter-spacing:.3px;color:var(--t3);text-transform:uppercase;padding:8px 11px;}
 
 /* Object */
-.obj{font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.obj{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;}
 .obj-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
 .cell-text{font-size:10px;color:var(--t2);line-height:1.45;}
 
 /* Editable */
-.cell{min-width:150px;max-width:150px;padding:7px 9px;font-size:10px;line-height:1.45;color:var(--t2);cursor:text;background:var(--bg);}
+.cell{min-width:120px;max-width:120px;padding:7px 9px;font-size:10px;line-height:1.45;color:var(--t2);cursor:text;background:var(--bg);}
+.cell.mstart{border-left:2px solid var(--b2);}
 .cell:hover{background:var(--s2);}
 .cell:focus{outline:2px solid var(--accent);outline-offset:-2px;background:#fff;color:var(--text);}
 .cell.filled{color:var(--text);}
 .editable{cursor:text;}
 .editable:focus{outline:2px solid var(--accent);outline-offset:-2px;background:#fff;}
 
-.legend{padding:8px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--t3);background:var(--bg);}
-
-/* Add object row button */
-.add-obj-btn{padding:8px 11px;color:var(--accent);font-size:11px;font-weight:500;cursor:pointer;}
-.add-obj-btn:hover{background:var(--s2);}
+/* KR progressive row inside object */
+.kr-month-row td{background:var(--s2);}
+.kr-month-cell{min-width:120px;max-width:120px;padding:5px 9px;font-size:10px;font-weight:600;color:var(--accent);line-height:1.4;background:#F5F6FF;}
+.kr-month-cell.mstart{border-left:2px solid var(--b2);}
+.kr-label{position:sticky;left:0;z-index:5;background:#F5F6FF;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--accent);padding:5px 11px;}
+.kr-label-span{position:sticky;left:0;z-index:5;background:#F5F6FF;}
 </style>
 </head>
 <body>
@@ -80,7 +81,7 @@ th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border)
   <div class="top-r">
     <span class="saved" id="saved">Автосохранение</span>
     <button class="btn" onclick="addObject()">+ Объект</button>
-    <button class="btn" onclick="exportData()">Экспорт</button>
+    <button class="btn" onclick="exportData()">Экспорт CSV</button>
   </div>
 </div>
 
@@ -89,67 +90,32 @@ th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border)
 </div>
 
 <script>
-const K='okr_objects_2026';
+const K='okr_horizontal_2026';
 
 let OBJECTS=[
-  {id:'sur1',tag:'Surprise #1',color:'#6366F1'},
-  {id:'sur2',tag:'Surprise #2',color:'#0EA5E9'},
-  {id:'sur3',tag:'Surprise #3',color:'#8B5CF6'},
-  {id:'ordery',tag:'Ordery',color:'#10B981'},
+  {id:'sur1',tag:'Surprise #1',color:'#6366F1',goal:'Открыть и стабилизировать первую точку',kr:'250 000 ₽ чистыми/мес'},
+  {id:'ordery',tag:'Ordery',color:'#10B981',goal:'CTO + внедрения → масштаб продаж',kr:'750 000 ₽ чистыми/мес'},
+  {id:'sur2',tag:'Surprise #2',color:'#0EA5E9',goal:'Открыть вторую точку',kr:'250 000 ₽ чистыми/мес'},
+  {id:'sur3',tag:'Surprise #3',color:'#8B5CF6',goal:'Открыть третью точку',kr:'250 000 ₽ чистыми/мес'},
 ];
 
+// Horizontal: months Jul → Dec, each with 4 weeks
 const MONTHS=[
-  {key:'dec',label:'Декабрь 2026'},
-  {key:'nov',label:'Ноябрь 2026'},
-  {key:'oct',label:'Октябрь 2026'},
-  {key:'sep',label:'Сентябрь 2026'},
-  {key:'aug',label:'Август 2026'},
   {key:'jul',label:'Июль 2026'},
+  {key:'aug',label:'Август 2026'},
+  {key:'sep',label:'Сентябрь 2026'},
+  {key:'oct',label:'Октябрь 2026'},
+  {key:'nov',label:'Ноябрь 2026'},
+  {key:'dec',label:'Декабрь 2026'},
 ];
 const WEEKS=['1','8','15','22'];
 
-// Общая цель объекта (не меняется по месяцам)
-const DEFAULTS={
-  sur1:{goal:'Открыть и стабилизировать первую точку',krq:'Точка работает, стабильная операционка',krn:'250 000 ₽ чистыми/мес'},
-  sur2:{goal:'Открыть вторую точку',krq:'Вторая точка запущена',krn:'250 000 ₽ чистыми/мес'},
-  sur3:{goal:'Открыть третью точку',krq:'Третья точка запущена',krn:'250 000 ₽ чистыми/мес'},
-  ordery:{goal:'CTO + внедрения → масштаб продаж',krq:'Команда и продукт масштабируются',krn:'750 000 ₽ чистыми/мес'},
-};
-
-// Прогрессивные KR по месяцам — качественный и количественный на каждый месяц
+// Progressive monthly KR (shown as a highlighted row under each object)
 const MONTH_KR={
-  sur1:{
-    jul:{krq:'Открытие 15–20 июля, запуск операционки',krn:'Открытие · выход в плюс'},
-    aug:{krq:'Отладка процессов, набор оборотов',krn:'100 000 ₽ чистыми'},
-    sep:{krq:'Стабильная работа, растёт трафик',krn:'150 000 ₽ чистыми'},
-    oct:{krq:'Выход на плановую загрузку',krn:'200 000 ₽ чистыми'},
-    nov:{krq:'Стабильная прибыльная точка',krn:'250 000 ₽ чистыми'},
-    dec:{krq:'Работает как часы, готова к тиражу',krn:'250 000 ₽ чистыми'},
-  },
-  ordery:{
-    jul:{krq:'Держу переговоры с ресторанами, не теряю',krn:'0 · воронка тёплых'},
-    aug:{krq:'CTO нанят, команда собрана',krn:'CTO на борту'},
-    sep:{krq:'Первые внедрения запущены',krn:'3–5 клиентов'},
-    oct:{krq:'Продукт обкатан на клиентах',krn:'8–10 клиентов'},
-    nov:{krq:'Масштабируем продажи',krn:'15 клиентов'},
-    dec:{krq:'Устойчивый рост клиентской базы',krn:'20 клиентов'},
-  },
-  sur2:{
-    jul:{krq:'—',krn:'—'},
-    aug:{krq:'—',krn:'—'},
-    sep:{krq:'Поиск и выбор локации',krn:'Локация найдена'},
-    oct:{krq:'Подписание + проектирование',krn:'Договор + проект'},
-    nov:{krq:'Открытие второй точки',krn:'Открытие'},
-    dec:{krq:'Первый месяц работы',krn:'100 000 ₽ чистыми'},
-  },
-  sur3:{
-    jul:{krq:'—',krn:'—'},
-    aug:{krq:'—',krn:'—'},
-    sep:{krq:'—',krn:'—'},
-    oct:{krq:'—',krn:'—'},
-    nov:{krq:'Поиск локации #3',krn:'Локация в работе'},
-    dec:{krq:'Подписание договора',krn:'Договор подписан'},
-  },
+  sur1:{jul:'Открытие · выход в плюс',aug:'100 000 ₽',sep:'150 000 ₽',oct:'200 000 ₽',nov:'250 000 ₽',dec:'250 000 ₽'},
+  ordery:{jul:'Воронка тёплых',aug:'CTO нанят',sep:'3–5 клиентов',oct:'8–10 клиентов',nov:'15 клиентов',dec:'20 клиентов'},
+  sur2:{jul:'—',aug:'—',sep:'Локация',oct:'Договор + проект',nov:'Открытие',dec:'100 000 ₽'},
+  sur3:{jul:'—',aug:'—',sep:'—',oct:'—',nov:'Локация',dec:'Договор'},
 };
 
 const SEED={
@@ -162,10 +128,7 @@ const SEED={
 };
 
 function load(){
-  try{
-    const r=localStorage.getItem(K);
-    if(r){const p=JSON.parse(r);if(p.objects)OBJECTS=p.objects;return p.data||{};}
-  }catch{}
+  try{const r=localStorage.getItem(K);if(r){const p=JSON.parse(r);if(p.objects)OBJECTS=p.objects;return p.data||{};}}catch{}
   return {...SEED};
 }
 function save(){
@@ -174,43 +137,60 @@ function save(){
 }
 let DATA=load();
 
-function g(id,mk,f){
-  // Если пользователь редактировал — берём его значение
-  if(DATA[id+'|'+mk+'|'+f]!==undefined) return DATA[id+'|'+mk+'|'+f];
-  // Цель — общая для объекта
-  if(f==='goal') return DEFAULTS[id]?DEFAULTS[id].goal:'';
-  // KR качественный/количественный — прогрессивные по месяцам
-  if(f==='krq'||f==='krn'){
-    if(MONTH_KR[id]&&MONTH_KR[id][mk]) return MONTH_KR[id][mk][f]||'';
-    return DEFAULTS[id]?DEFAULTS[id][f]:'';
-  }
-  return '';
+function mkr(id,mk){
+  if(DATA[id+'|'+mk+'|_mkr']!==undefined)return DATA[id+'|'+mk+'|_mkr'];
+  return (MONTH_KR[id]&&MONTH_KR[id][mk])?MONTH_KR[id][mk]:'';
 }
 
 function build(){
-  let h='<thead><tr>';
-  h+='<th class="hd hd-corner c-obj">Объект</th>';
-  h+='<th class="hd hd-corner c-goal">Цель</th>';
-  h+='<th class="hd hd-corner c-krq">КР качественный</th>';
-  h+='<th class="hd hd-corner c-krn">КР количественный</th>';
-  WEEKS.forEach(w=>{h+=`<th class="week-hd">Weekly ${w}</th>`;});
-  h+='</tr></thead><tbody>';
-
+  let h='<thead>';
+  // Row 1: months
+  h+='<tr>';
+  h+='<th class="corner month-hd" style="background:var(--s3);color:var(--t3)"><div class="hd-lbl">Объект</div></th>';
+  h+='<th class="corner1 month-hd" style="background:var(--s3);color:var(--t3);top:0"><div class="hd-lbl">Цель</div></th>';
+  h+='<th class="corner2 month-hd" style="background:var(--s3);color:var(--t3);top:0"><div class="hd-lbl">Ключевой результат</div></th>';
   MONTHS.forEach(m=>{
-    h+=`<tr class="month-band"><td colspan="${4+WEEKS.length}">${m.label} · Sprint review</td></tr>`;
-    OBJECTS.forEach(o=>{
-      h+='<tr>';
-      h+=`<td class="c-obj"><div class="obj"><span class="obj-dot" style="background:${o.color}"></span>${o.tag}</div></td>`;
-      h+=`<td class="c-goal editable" contenteditable="true" data-key="${o.id}|${m.key}|goal" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${g(o.id,m.key,'goal')}</span></td>`;
-      h+=`<td class="c-krq editable" contenteditable="true" data-key="${o.id}|${m.key}|krq" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${g(o.id,m.key,'krq')}</span></td>`;
-      h+=`<td class="c-krn editable" contenteditable="true" data-key="${o.id}|${m.key}|krn" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${g(o.id,m.key,'krn')}</span></td>`;
-      WEEKS.forEach(w=>{
+    h+=`<th class="month-hd" colspan="${WEEKS.length}">${m.label}</th>`;
+  });
+  h+='</tr>';
+  // Row 2: weeks
+  h+='<tr>';
+  h+='<th class="corner week-hd" style="top:33px;background:var(--s3)"></th>';
+  h+='<th class="corner1 week-hd" style="top:33px;left:130px;background:var(--s3)"></th>';
+  h+='<th class="corner2 week-hd" style="top:33px;left:300px;background:var(--s3)"></th>';
+  MONTHS.forEach(m=>{
+    WEEKS.forEach((w,wi)=>{
+      h+=`<th class="week-hd ${wi===0?'mstart':''}">нед ${w}</th>`;
+    });
+  });
+  h+='</tr>';
+  h+='</thead><tbody>';
+
+  OBJECTS.forEach(o=>{
+    // Main object row (weekly cells)
+    h+='<tr>';
+    h+=`<td class="c-obj"><div class="obj"><span class="obj-dot" style="background:${o.color}"></span>${o.tag}</div></td>`;
+    h+=`<td class="c-goal editable" contenteditable="true" data-key="${o.id}|goal" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${DATA[o.id+'|goal']??o.goal}</span></td>`;
+    h+=`<td class="c-kr editable" contenteditable="true" data-key="${o.id}|kr" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${DATA[o.id+'|kr']??o.kr}</span></td>`;
+    MONTHS.forEach(m=>{
+      WEEKS.forEach((w,wi)=>{
         const key=`${o.id}|${m.key}|${w}`;
         const val=DATA[key]||'';
-        h+=`<td class="cell ${val?'filled':''}" contenteditable="true" data-key="${key}" oninput="onEdit(this)" spellcheck="false">${val}</td>`;
+        h+=`<td class="cell ${val?'filled':''} ${wi===0?'mstart':''}" contenteditable="true" data-key="${key}" oninput="onEdit(this)" spellcheck="false">${val}</td>`;
       });
-      h+='</tr>';
     });
+    h+='</tr>';
+    // KR-per-month row (highlighted)
+    h+='<tr class="kr-month-row">';
+    h+=`<td class="kr-label" style="border-right:none">Цель месяца →</td>`;
+    h+=`<td class="kr-label-span" style="left:130px"></td>`;
+    h+=`<td class="kr-label-span" style="left:300px;border-right:2px solid var(--b2)"></td>`;
+    MONTHS.forEach(m=>{
+      const val=mkr(o.id,m.key);
+      // span all 4 weeks of the month
+      h+=`<td class="kr-month-cell mstart" colspan="${WEEKS.length}" contenteditable="true" data-key="${o.id}|${m.key}|_mkr" oninput="onEdit(this)" spellcheck="false">${val}</td>`;
+    });
+    h+='</tr>';
   });
   h+='</tbody>';
   document.getElementById('tbl').innerHTML=h;
@@ -227,29 +207,22 @@ function onEdit(el){
 function addObject(){
   const tag=prompt('Название объекта:');
   if(!tag)return;
-  const colors=['#EC4899','#F59E0B','#14B8A6','#EF4444','#8B5CF6','#3B82F6'];
-  const color=colors[OBJECTS.length%colors.length];
-  OBJECTS.push({id:'obj'+Date.now(),tag,color});
+  const colors=['#EC4899','#F59E0B','#14B8A6','#EF4444','#3B82F6','#8B5CF6'];
+  OBJECTS.push({id:'obj'+Date.now(),tag,color:colors[OBJECTS.length%colors.length],goal:'',kr:''});
   save();build();
 }
 
 function exportData(){
-  let csv='Объект,Цель,КР качественный,КР количественный';
-  WEEKS.forEach(w=>csv+=`,Weekly ${w}`);
+  let csv='Объект,Цель,КР';
+  MONTHS.forEach(m=>WEEKS.forEach(w=>csv+=`,${m.label} нед${w}`));
   csv+='\n';
-  MONTHS.forEach(m=>{
-    csv+=`${m.label}\n`;
-    OBJECTS.forEach(o=>{
-      const cells=[o.tag,g(o.id,m.key,'goal'),g(o.id,m.key,'krq'),g(o.id,m.key,'krn')];
-      WEEKS.forEach(w=>cells.push(DATA[`${o.id}|${m.key}|${w}`]||''));
-      csv+=cells.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(',')+'\n';
-    });
+  OBJECTS.forEach(o=>{
+    const cells=[o.tag,DATA[o.id+'|goal']??o.goal,DATA[o.id+'|kr']??o.kr];
+    MONTHS.forEach(m=>WEEKS.forEach(w=>cells.push(DATA[`${o.id}|${m.key}|${w}`]||'')));
+    csv+=cells.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(',')+'\n';
   });
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='okr_2026.csv';
-  a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='okr_2026.csv';a.click();
 }
 
 build();
