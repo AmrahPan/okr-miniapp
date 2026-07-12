@@ -3,751 +3,215 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OKR Engine</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<title>OKR — Объекты 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#F8FAFC;--surface:#FFF;--s2:#F1F5F9;--border:#E2E8F0;--b2:#CBD5E1;
-  --text:#0F172A;--t2:#475569;--t3:#94A3B8;
-  --accent:#6366F1;--abg:#EEF2FF;
-  --green:#10B981;--amber:#F59E0B;--red:#EF4444;
+  --bg:#FFFFFF;--s2:#F7F8FA;--s3:#F1F3F5;--border:#E5E7EB;--b2:#D1D5DB;
+  --text:#111827;--t2:#4B5563;--t3:#9CA3AF;
+  --accent:#6366F1;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:12px;line-height:1.5;}
 button{cursor:pointer;font-family:inherit;border:none;background:none;}
-input,select{font-family:inherit;font-size:13px;}
-::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+input{font-family:inherit;}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-track{background:var(--s2);}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:var(--t3);}
 
-/* Layout */
-.page{max-width:780px;margin:0 auto;padding:24px 20px 60px;}
+.top{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg);position:sticky;top:0;z-index:10;}
+.top-l{display:flex;align-items:center;gap:12px;}
+.top-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--s3);color:var(--text);}
+.top-goal{font-size:14px;font-weight:600;}
+.top-goal span{font-size:11px;color:var(--t3);font-weight:400;margin-left:8px;}
+.top-r{display:flex;align-items:center;gap:12px;}
+.saved{font-size:11px;color:var(--t3);}
+.btn{font-size:12px;font-weight:500;padding:6px 12px;border-radius:7px;border:1px solid var(--border);color:var(--t2);transition:all .12s;}
+.btn:hover{background:var(--s2);color:var(--text);}
+.btn-p{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn-p:hover{background:#4F46E5;color:#fff;}
 
-/* Header */
-.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--border);}
-.hdr-left h1{font-size:16px;font-weight:800;letter-spacing:-.3px;}
-.hdr-left p{font-size:11px;color:var(--t3);margin-top:1px;}
-.hdr-right{display:flex;align-items:center;gap:12px;}
-.total-chip{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:5px 12px;}
-.total-chip span{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;}
-.mini-bar{width:60px;height:4px;background:var(--s2);border-radius:99px;overflow:hidden;}
-.mini-bar-fill{height:100%;border-radius:99px;transition:width .5s;}
+.scroll{overflow:auto;height:calc(100vh - 60px);}
+table{border-collapse:separate;border-spacing:0;min-width:max-content;}
+th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border);vertical-align:top;text-align:left;}
 
-/* Section block */
-.block{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+/* Frozen columns */
+.c-obj{position:sticky;left:0;z-index:5;background:var(--s2);min-width:120px;max-width:120px;padding:9px 11px;}
+.c-goal{position:sticky;left:120px;z-index:5;background:var(--s2);min-width:160px;max-width:160px;padding:9px 11px;}
+.c-krq{position:sticky;left:280px;z-index:5;background:var(--s2);min-width:140px;max-width:140px;padding:9px 11px;}
+.c-krn{position:sticky;left:420px;z-index:5;background:var(--s2);min-width:120px;max-width:120px;padding:9px 11px;border-right:2px solid var(--b2);}
 
-/* Section header — clickable */
-.block-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;transition:background .12s;}
-.block-hd:hover{background:var(--s2);}
-.block-hd-left{display:flex;align-items:center;gap:10px;}
-.block-hd-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.block-hd-title{font-size:13px;font-weight:700;}
-.block-hd-sub{font-size:11px;color:var(--t3);margin-top:1px;}
-.block-hd-right{display:flex;align-items:center;gap:8px;}
-.chevron{color:var(--t3);font-size:12px;transition:transform .2s;}
-.chevron.open{transform:rotate(180deg);}
-.block-body{border-top:1px solid var(--border);}
+/* Headers */
+.hd{position:sticky;top:0;z-index:6;background:var(--s3);font-size:10px;font-weight:700;letter-spacing:.3px;color:var(--t3);padding:8px 10px;text-transform:uppercase;}
+.hd-corner{z-index:8!important;}
+.week-hd{position:sticky;top:0;z-index:6;background:var(--s3);font-size:10px;font-weight:600;color:var(--t2);padding:8px 8px;text-align:center;min-width:150px;max-width:150px;}
 
-/* Today tasks */
-.task-add-row{display:flex;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);background:var(--s2);}
-.inp{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 11px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s;width:100%;}
-.inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.1);}
-.sel{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--t2);outline:none;}
-.sel:focus{border-color:var(--accent);}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;transition:all .12s;}
-.btn-p{background:var(--accent);color:#fff;}.btn-p:hover{background:#4F46E5;}
-.btn-g{border:1px solid var(--border);color:var(--t2);}.btn-g:hover{background:var(--s2);}
-.btn-xs{padding:3px 8px;font-size:11px;border-radius:6px;}
-.btn-icon{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid var(--border);color:var(--t3);transition:all .12s;}
-.btn-icon:hover{background:var(--s2);color:var(--text);}
+/* Month band */
+.month-band td{position:sticky;left:0;background:var(--text);color:#fff;font-size:11px;font-weight:700;letter-spacing:.5px;padding:7px 11px;z-index:4;text-transform:uppercase;}
 
-/* Task row */
-.task-row{display:flex;align-items:flex-start;gap:0;border-bottom:1px solid var(--border);transition:background .12s;}
-.task-row:last-of-type{border-bottom:none;}
-.task-row:hover{background:#FAFBFF;}
-.task-stripe{width:3px;flex-shrink:0;align-self:stretch;}
-.task-inner{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;flex:1;min-width:0;}
-.task-check{width:18px;height:18px;min-width:18px;border-radius:5px;border:1.5px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:1px;transition:all .15s;flex-shrink:0;}
-.task-check.done{background:var(--green);border-color:var(--green);}
-.task-content{flex:1;min-width:0;}
-.task-text{font-size:14px;font-weight:500;line-height:1.4;}
-.task-text.done{text-decoration:line-through;color:var(--t3);}
-.task-crumb{display:flex;align-items:center;gap:5px;margin-top:4px;flex-wrap:wrap;}
-.crumb-o{font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;color:#fff;white-space:nowrap;}
-.crumb-sep{font-size:9px;color:var(--t3);}
-.crumb-kr{font-size:11px;color:var(--t2);}
-.no-kr{font-size:10px;color:var(--t3);margin-top:3px;}
-.task-del{color:var(--t3);font-size:17px;line-height:1;padding:0 3px;opacity:0;transition:opacity .12s;flex-shrink:0;}
-.task-row:hover .task-del{opacity:1;}
-.task-row.done-row{opacity:.5;}
+/* Object */
+.obj{font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.obj-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.cell-text{font-size:10px;color:var(--t2);line-height:1.45;}
 
-/* Progress bar under tasks */
-.task-progress{padding:8px 18px;display:flex;align-items:center;gap:10px;border-top:1px solid var(--border);background:var(--s2);}
-.t-pbar{flex:1;height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
-.t-pbar-fill{height:100%;border-radius:99px;background:var(--green);transition:width .4s;}
+/* Editable */
+.cell{min-width:150px;max-width:150px;padding:7px 9px;font-size:10px;line-height:1.45;color:var(--t2);cursor:text;background:var(--bg);}
+.cell:hover{background:var(--s2);}
+.cell:focus{outline:2px solid var(--accent);outline-offset:-2px;background:#fff;color:var(--text);}
+.cell.filled{color:var(--text);}
+.editable{cursor:text;}
+.editable:focus{outline:2px solid var(--accent);outline-offset:-2px;background:#fff;}
 
-/* Empty state */
-.empty{text-align:center;padding:28px 20px;color:var(--t3);font-size:12px;}
+.legend{padding:8px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--t3);background:var(--bg);}
 
-/* Objective */
-.obj-wrap{border-bottom:1px solid var(--border);}
-.obj-wrap:last-child{border-bottom:none;}
-.obj-hd{display:flex;align-items:flex-start;gap:0;cursor:pointer;transition:background .12s;}
-.obj-hd:hover{background:#FAFBFF;}
-.obj-stripe{width:4px;flex-shrink:0;align-self:stretch;}
-.obj-hd-inner{display:flex;align-items:flex-start;justify-content:space-between;padding:13px 16px;flex:1;gap:12px;}
-.obj-meta{flex:1;min-width:0;}
-.obj-q{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:1px 6px;border-radius:3px;display:inline-block;margin-bottom:4px;}
-.obj-title{font-size:13px;font-weight:700;line-height:1.3;}
-.obj-pct{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px;flex-shrink:0;}
-.obj-prow{padding:0 16px 10px 20px;display:flex;align-items:center;gap:8px;}
-.obj-pbar{flex:1;height:5px;background:var(--s2);border-radius:99px;overflow:hidden;}
-.obj-pbar-fill{height:100%;border-radius:99px;transition:width .5s;}
-.obj-actions{display:flex;gap:4px;padding:0 16px 10px 20px;}
-
-/* KR rows */
-.kr-wrap{background:#FAFBFF;border-top:1px solid var(--border);}
-.kr-row{display:flex;align-items:center;gap:10px;padding:9px 16px 9px 24px;border-bottom:1px solid var(--border);}
-.kr-row:last-child{border-bottom:none;}
-.kr-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.kr-info{flex:1;min-width:0;}
-.kr-title{font-size:12px;color:var(--t2);margin-bottom:4px;line-height:1.3;}
-.kr-prow{display:flex;align-items:center;gap:7px;}
-.kr-bar{flex:1;height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
-.kr-bar-fill{height:100%;border-radius:99px;transition:width .5s;}
-.kr-pct{font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;min-width:26px;text-align:right;}
-.kr-val-btn{font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--t2);background:var(--s2);border:1px solid var(--border);border-radius:5px;padding:2px 7px;cursor:pointer;white-space:nowrap;transition:all .12s;}
-.kr-val-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--abg);}
-.kr-edit-inp{width:72px;text-align:right;background:var(--surface);border:1.5px solid var(--accent);border-radius:5px;padding:2px 7px;font-size:12px;font-weight:600;outline:none;box-shadow:0 0 0 2px rgba(99,102,241,.15);}
-.kr-del{color:var(--t3);font-size:14px;padding:2px 3px;transition:all .12s;flex-shrink:0;}
-.kr-del:hover{color:var(--red);}
-
-/* Tasks under KR */
-.kr-tasks{background:var(--s2);border-top:1px solid var(--border);}
-.kr-task-row{display:flex;align-items:center;gap:7px;padding:5px 16px 5px 32px;border-bottom:1px solid var(--border);}
-.kr-task-row:last-child{border-bottom:none;}
-.kr-task-check{width:12px;height:12px;min-width:12px;border-radius:3px;border:1.5px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;}
-.kr-task-check.done{background:var(--green);border-color:var(--green);}
-.kr-task-text{font-size:11px;color:var(--t2);}
-.kr-task-text.done{text-decoration:line-through;color:var(--t3);}
-
-/* Add forms */
-.add-form{padding:12px 16px;background:var(--s2);border-top:1px solid var(--border);display:flex;flex-direction:column;gap:7px;}
-.form-row{display:flex;gap:7px;}
-
-/* Routines */
-.routine-section{border-bottom:1px solid var(--border);}
-.routine-section:last-child{border-bottom:none;}
-.routine-section-hd{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);padding:10px 18px 6px;}
-.r-row{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--border);}
-.r-row:last-child{border-bottom:none;}
-.r-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.r-info{flex:1;min-width:0;}
-.r-title{font-size:13px;font-weight:500;}
-.r-desc{font-size:11px;color:var(--t3);margin-top:1px;}
-.r-last{font-size:10px;color:var(--t3);margin-top:1px;}
-.r-done-tag{font-size:11px;font-weight:600;color:var(--green);}
-
-/* Heatmap */
-.hm-wrap{padding:14px 18px;overflow-x:auto;border-top:1px solid var(--border);}
-.hm-title{font-size:12px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
-.hm-count{font-size:11px;color:var(--t3);font-weight:400;}
-.hm-grid{display:inline-flex;gap:2px;}
-.hm-week{display:flex;flex-direction:column;gap:2px;}
-.hm-cell{width:11px;height:11px;border-radius:2px;cursor:default;transition:transform .1s;}
-.hm-cell:hover{transform:scale(1.4);}
-.hm-0{background:#F1F5F9;}
-.hm-1{background:#6366F1;}
-.hm-legend{display:flex;align-items:center;gap:5px;margin-top:7px;font-size:10px;color:var(--t3);}
-
-/* Guide */
-.guide-item{border-bottom:1px solid var(--border);}
-.guide-item:last-child{border-bottom:none;}
-.guide-hd{display:flex;align-items:center;gap:10px;padding:11px 18px;cursor:pointer;transition:background .12s;}
-.guide-hd:hover{background:var(--s2);}
-.guide-num{font-size:10px;font-weight:700;color:var(--accent);background:var(--abg);border-radius:4px;padding:1px 6px;}
-.guide-ttl{flex:1;font-size:13px;font-weight:600;}
-.guide-chev{color:var(--t3);font-size:11px;transition:transform .2s;}
-.guide-chev.open{transform:rotate(180deg);}
-.guide-bd{padding:0 18px 14px;font-size:13px;color:var(--t2);line-height:1.7;}
-.guide-bd p{margin-top:7px;}
-.hl{color:var(--text);font-weight:600;}
-.ok{color:var(--green);}
-.bad{color:var(--red);}
-
-/* Chip */
-.chip{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;}
-.chip-due{background:#FEF3C7;color:#B45309;}
-.chip-done{background:#ECFDF5;color:#059669;}
-
-.tooltip{position:fixed;background:var(--text);color:#fff;font-size:11px;padding:3px 8px;border-radius:5px;pointer-events:none;z-index:999;display:none;white-space:nowrap;}
+/* Add object row button */
+.add-obj-btn{padding:8px 11px;color:var(--accent);font-size:11px;font-weight:500;cursor:pointer;}
+.add-obj-btn:hover{background:var(--s2);}
 </style>
 </head>
 <body>
-<div class="tooltip" id="tt"></div>
-<div class="page">
 
-<!-- Header -->
-<div class="hdr">
-  <div class="hdr-left">
-    <h1>OKR Engine</h1>
-    <p id="hdr-date"></p>
+<div class="top">
+  <div class="top-l">
+    <span class="top-badge">O2 · Главная цель</span>
+    <div class="top-goal">1 500 000 ₽ / мес личная прибыль <span>не сгораемо · к марту 2027</span></div>
   </div>
-  <div class="hdr-right">
-    <div class="total-chip">
-      <div class="mini-bar"><div class="mini-bar-fill" id="hdr-bar"></div></div>
-      <span id="hdr-pct" style="color:var(--accent)">0%</span>
-    </div>
-    <div id="hdr-chips"></div>
+  <div class="top-r">
+    <span class="saved" id="saved">Автосохранение</span>
+    <button class="btn" onclick="addObject()">+ Объект</button>
+    <button class="btn" onclick="exportData()">Экспорт</button>
   </div>
 </div>
 
-<!-- Section: Today -->
-<div class="block" id="block-today">
-  <div class="block-hd" onclick="toggle('today')">
-    <div class="block-hd-left">
-      <div class="block-hd-icon" style="background:#EEF2FF">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-      </div>
-      <div>
-        <div class="block-hd-title">Задачи дня</div>
-        <div class="block-hd-sub" id="today-sub">Загрузка…</div>
-      </div>
-    </div>
-    <div class="block-hd-right">
-      <span id="today-chip"></span>
-      <span class="chevron open" id="chev-today">▾</span>
-    </div>
-  </div>
-  <div class="block-body" id="body-today"></div>
-</div>
-
-<!-- Section: Goals -->
-<div class="block" id="block-goals">
-  <div class="block-hd" onclick="toggle('goals')">
-    <div class="block-hd-left">
-      <div class="block-hd-icon" style="background:#F0FDF4">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="3" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="3" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21" y2="12"/></svg>
-      </div>
-      <div>
-        <div class="block-hd-title">Цели и KR</div>
-        <div class="block-hd-sub" id="goals-sub">Загрузка…</div>
-      </div>
-    </div>
-    <div class="block-hd-right">
-      <span class="chevron open" id="chev-goals">▾</span>
-    </div>
-  </div>
-  <div class="block-body" id="body-goals"></div>
-</div>
-
-<!-- Section: Routines -->
-<div class="block" id="block-routines">
-  <div class="block-hd" onclick="toggle('routines')">
-    <div class="block-hd-left">
-      <div class="block-hd-icon" style="background:#FFFBEB">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-      </div>
-      <div>
-        <div class="block-hd-title">Рутины</div>
-        <div class="block-hd-sub" id="routines-sub">Загрузка…</div>
-      </div>
-    </div>
-    <div class="block-hd-right">
-      <span id="routines-chip"></span>
-      <span class="chevron" id="chev-routines">▾</span>
-    </div>
-  </div>
-  <div class="block-body" id="body-routines" style="display:none"></div>
-</div>
-
-<!-- Section: Guide -->
-<div class="block" id="block-guide">
-  <div class="block-hd" onclick="toggle('guide')">
-    <div class="block-hd-left">
-      <div class="block-hd-icon" style="background:#F5F3FF">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      </div>
-      <div>
-        <div class="block-hd-title">Гайд по OKR</div>
-        <div class="block-hd-sub">7 разделов</div>
-      </div>
-    </div>
-    <div class="block-hd-right">
-      <span class="chevron" id="chev-guide">▾</span>
-    </div>
-  </div>
-  <div class="block-body" id="body-guide" style="display:none"></div>
-</div>
-
+<div class="scroll">
+  <table id="tbl"></table>
 </div>
 
 <script>
-// ── Data ──────────────────────────────────────────────────────────────────────
-const SK='okr_v3';
-const OC=['#6366F1','#0EA5E9','#10B981','#8B5CF6','#F59E0B','#EC4899'];
+const K='okr_objects_2026';
 
-const DEF={
-  objectives:[
-    {id:'o1',title:'Запустить Surprise и набрать обороты',quarter:'Q3 2026',keyResults:[
-      {id:'k1',title:'Открытие состоялось 15 июля',current:0,target:1,unit:'факт'},
-      {id:'k2',title:'Выручка ₽/мес к сентябрю',current:0,target:5000000,unit:'₽'},
-      {id:'k3',title:'Рентабельность к сентябрю',current:0,target:18,unit:'%'},
-    ]},
-    {id:'o2',title:'Ordery — первые продажи и внедрения',quarter:'Q3 2026',keyResults:[
-      {id:'k4',title:'Платящих ресторанов подключено',current:0,target:10,unit:'клиентов'},
-      {id:'k5',title:'MRR покрывает команду',current:0,target:500000,unit:'₽'},
-      {id:'k6',title:'Клиент прошёл полный цикл внедрения',current:0,target:1,unit:'факт'},
-    ]},
-    {id:'o3',title:'Личная чистая прибыль 300 000 ₽/мес',quarter:'Q3 2026',keyResults:[
-      {id:'k7',title:'Чистая прибыль со всех проектов в сентябре',current:0,target:300000,unit:'₽'},
-    ]},
-    {id:'o4',title:'Surprise — 8 млн выручки и старт второй точки',quarter:'Q4 2026',keyResults:[
-      {id:'k8',title:'Выручка к декабрю',current:0,target:8000000,unit:'₽'},
-      {id:'k9',title:'Рентабельность',current:0,target:20,unit:'%'},
-      {id:'k10',title:'Договор на вторую точку подписан',current:0,target:1,unit:'факт'},
-    ]},
-    {id:'o5',title:'Ordery — масштабирование продаж',quarter:'Q4 2026',keyResults:[
-      {id:'k11',title:'Платящих клиентов',current:0,target:15,unit:'клиентов'},
-      {id:'k12',title:'MRR',current:0,target:450000,unit:'₽'},
-      {id:'k13',title:'Внедрений с подтверждённым ROI',current:0,target:3,unit:'штук'},
-    ]},
-    {id:'o6',title:'Личная чистая прибыль 600 000 ₽/мес',quarter:'Q4 2026',keyResults:[
-      {id:'k14',title:'Чистая прибыль со всех проектов в декабре',current:0,target:600000,unit:'₽'},
-      {id:'k15',title:'Surprise чистыми',current:0,target:300000,unit:'₽'},
-      {id:'k16',title:'Ordery чистыми',current:0,target:200000,unit:'₽'},
-    ]},
-  ],
-  todayTasks:[],
-  routines:[
-    {id:'r1',title:'Daily standup с собой',freq:'daily',desc:'5 мин: что сделал, что делаю, что блокирует',h:[]},
-    {id:'r2',title:'OKR Weekly Review',freq:'weekly',dow:1,desc:'Обнови KR цифрами, выбери 3 задачи на неделю',h:[]},
-    {id:'r3',title:'Monthly Check-in',freq:'monthly',dom:1,desc:'Оцени траекторию, скорректируй подход',h:[]},
-    {id:'r4',title:'Квартальное планирование',freq:'quarterly',desc:'Ретро + новые цели на квартал',h:[]},
-  ],
-};
-
-function load(){try{const r=localStorage.getItem(SK);if(r)return JSON.parse(r);}catch{}return JSON.parse(JSON.stringify(DEF));}
-function save(){localStorage.setItem(SK,JSON.stringify(D));}
-let D=load();
-if(!D.objectives?.length)D=JSON.parse(JSON.stringify(DEF));
-D.routines.forEach(r=>{if(!r.h)r.h=[];});
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-const td=()=>new Date().toISOString().split('T')[0];
-const fmt=n=>Number(n).toLocaleString('ru-RU');
-const pct=(c,t)=>!t?0:Math.min(100,Math.round(c/t*100));
-const oP=o=>{const ks=o.keyResults||[];if(!ks.length)return 0;return Math.round(ks.reduce((s,k)=>s+pct(k.current,k.target),0)/ks.length);};
-const totP=()=>{const os=D.objectives||[];if(!os.length)return 0;return Math.round(os.reduce((s,o)=>s+oP(o),0)/os.length);};
-const pc=p=>p>=70?'#10B981':p>=40?'#6366F1':'#F59E0B';
-const oc=(i)=>OC[i%OC.length];
-const allKRs=()=>D.objectives.flatMap((o,i)=>(o.keyResults||[]).map(k=>({...k,oTitle:o.title,oId:o.id,oIdx:i})));
-const isDue=r=>{
-  if((r.h||[]).includes(td()))return false;
-  const n=new Date();
-  if(r.freq==='daily')return true;
-  if(r.freq==='weekly')return n.getDay()===(r.dow??1);
-  if(r.freq==='monthly')return n.getDate()===(r.dom??1);
-  if(r.freq==='quarterly'){const m=n.getMonth();return n.getDate()===1&&[0,3,6,9].includes(m);}
-  return false;
-};
-
-// Section open state
-const open={today:true,goals:true,routines:false,guide:false};
-let editKR=null;
-
-function toggle(s){
-  open[s]=!open[s];
-  const body=document.getElementById('body-'+s);
-  const chev=document.getElementById('chev-'+s);
-  body.style.display=open[s]?'':'none';
-  chev.classList.toggle('open',open[s]);
-  if(open[s])renderSection(s);
-}
-
-// ── Header ────────────────────────────────────────────────────────────────────
-function renderHeader(){
-  document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
-  const p=totP();
-  document.getElementById('hdr-pct').textContent=p+'%';
-  document.getElementById('hdr-pct').style.color=pc(p);
-  const b=document.getElementById('hdr-bar');
-  b.style.width=p+'%';b.style.background=pc(p);
-  const due=D.routines.filter(isDue).length;
-  const chips=document.getElementById('hdr-chips');
-  chips.innerHTML=due>0?`<span class="chip chip-due">⚡ ${due} рутин</span>`:'<span class="chip chip-done">Всё ок</span>';
-}
-
-// ── Section renderers ─────────────────────────────────────────────────────────
-function renderSection(s){
-  if(s==='today')renderToday();
-  else if(s==='goals')renderGoals();
-  else if(s==='routines')renderRoutines();
-  else if(s==='guide')renderGuide();
-}
-
-function renderAll(){
-  renderHeader();
-  ['today','goals','routines','guide'].forEach(s=>{if(open[s])renderSection(s);else updateSubtitle(s);});
-}
-
-function updateSubtitle(s){
-  if(s==='today'){
-    const tasks=(D.todayTasks||[]).filter(t=>t.date===td());
-    const done=tasks.filter(t=>t.done).length;
-    document.getElementById('today-sub').textContent=tasks.length?`${done} из ${tasks.length} выполнено`:'Нет задач';
-    const chip=document.getElementById('today-chip');
-    if(tasks.length>0&&done<tasks.length)chip.innerHTML=`<span style="font-size:11px;font-weight:600;color:var(--accent)">${tasks.length-done} осталось</span>`;
-    else if(done===tasks.length&&tasks.length>0)chip.innerHTML=`<span style="font-size:11px;font-weight:600;color:var(--green)">✓ Всё</span>`;
-    else chip.innerHTML='';
-  }
-  if(s==='goals'){
-    const p=totP();
-    document.getElementById('goals-sub').textContent=`${D.objectives.length} целей · ${p}% общий прогресс`;
-  }
-  if(s==='routines'){
-    const due=D.routines.filter(isDue);
-    document.getElementById('routines-sub').textContent=due.length?`${due.length} рутин сегодня`:'Все выполнены';
-    const chip=document.getElementById('routines-chip');
-    chip.innerHTML=due.length?`<span class="chip chip-due">⚡${due.length}</span>`:`<span class="chip chip-done">✓</span>`;
-  }
-}
-
-// ── TODAY ─────────────────────────────────────────────────────────────────────
-function renderToday(){
-  const tasks=(D.todayTasks||[]).filter(t=>t.date===td());
-  const done=tasks.filter(t=>t.done).length;
-  const krs=allKRs();
-  updateSubtitle('today');
-
-  const sel=krs.map(k=>`<option value="${k.id}">${D.objectives[k.oIdx].title.split(' ').slice(0,3).join(' ')} → ${k.title}</option>`).join('');
-
-  let html=`
-  <div class="task-add-row">
-    <input class="inp" id="ti" placeholder="Задача на сегодня…" onkeydown="if(event.key==='Enter')addTask()"/>
-    <select class="sel" id="tk" style="min-width:0;flex:1"><option value="">— KR</option>${sel}</select>
-    <button class="btn btn-p" onclick="addTask()">+</button>
-  </div>`;
-
-  if(tasks.length===0){
-    html+=`<div class="empty">Нет задач — добавь 1–3 которые продвинут KR</div>`;
-  } else {
-    tasks.forEach(t=>{
-      const kr=krs.find(k=>k.id===t.krId);
-      const oidx=kr?kr.oIdx:-1;
-      const col=oidx>=0?oc(oidx):'var(--b2)';
-      html+=`
-      <div class="task-row ${t.done?'done-row':''}">
-        <div class="task-stripe" style="background:${col}"></div>
-        <div class="task-inner">
-          <div class="task-check ${t.done?'done':''}" onclick="toggleTask('${t.id}')">
-            ${t.done?`<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`:''}
-          </div>
-          <div class="task-content">
-            <div class="task-text ${t.done?'done':''}">${t.text}</div>
-            ${kr?`<div class="task-crumb">
-              <span class="crumb-o" style="background:${col}">${D.objectives[oidx].title.split(' ').slice(0,2).join(' ')}</span>
-              <span class="crumb-sep">›</span>
-              <span class="crumb-kr">${kr.title}</span>
-            </div>`:`<div class="no-kr">Не привязано к KR</div>`}
-          </div>
-          <button class="task-del" onclick="delTask('${t.id}')">×</button>
-        </div>
-      </div>`;
-    });
-    if(tasks.length>0){
-      const p=Math.round(done/tasks.length*100);
-      html+=`<div class="task-progress"><div class="t-pbar"><div class="t-pbar-fill" style="width:${p}%"></div></div><span style="font-size:11px;color:var(--t3)">${done}/${tasks.length}</span></div>`;
-    }
-  }
-  document.getElementById('body-today').innerHTML=html;
-}
-
-// ── GOALS ─────────────────────────────────────────────────────────────────────
-function renderGoals(){
-  updateSubtitle('goals');
-  let html='';
-  D.objectives.forEach((o,i)=>{
-    const p=oP(o);const c=pc(p);const col=oc(i);
-    const qBg=o.quarter==='Q3 2026'?'#EEF2FF':'#FFFBEB';
-    const qC=o.quarter==='Q3 2026'?'#6366F1':'#F59E0B';
-    html+=`<div class="obj-wrap">
-      <div class="obj-hd" onclick="toggleObj('${o.id}')">
-        <div class="obj-stripe" style="background:${col}"></div>
-        <div class="obj-hd-inner">
-          <div class="obj-meta">
-            <span class="obj-q" style="background:${qBg};color:${qC}">${o.quarter}</span>
-            <div class="obj-title">${o.title}</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <div class="obj-pct" style="color:${c}">${p}%</div>
-            <span style="color:var(--t3);font-size:11px;transition:transform .2s" id="oc-${o.id}">▾</span>
-          </div>
-        </div>
-      </div>
-      <div class="obj-prow"><div class="obj-pbar" style="flex:1"><div class="obj-pbar-fill" style="width:${p}%;background:${c}"></div></div></div>
-      <div class="obj-actions">
-        <button class="btn btn-g btn-xs" onclick="event.stopPropagation();showAddKR('${o.id}')">+ KR</button>
-        <button class="btn btn-xs" onclick="event.stopPropagation();delObj('${o.id}')" style="color:var(--red);border:1px solid var(--border)">Удалить</button>
-      </div>
-      <div id="obj-krs-${o.id}" style="display:none">
-        <div class="kr-wrap">${renderKRs(o,i,col)}</div>
-        <div id="add-kr-${o.id}"></div>
-      </div>
-    </div>`;
-  });
-  html+=`<div style="padding:12px 18px;border-top:1px solid var(--border)"><button class="btn btn-g btn-xs" onclick="showAddObj()">+ Новая цель</button></div>`;
-  html+=`<div id="add-obj"></div>`;
-  document.getElementById('body-goals').innerHTML=html;
-}
-
-function renderKRs(o,oi,col){
-  let html='';
-  const tasks=(D.todayTasks||[]).filter(t=>t.date===td());
-  (o.keyResults||[]).forEach(k=>{
-    const p=pct(k.current,k.target);const c=pc(p);
-    const isEdit=editKR===k.id;
-    const ktasks=tasks.filter(t=>t.krId===k.id);
-    html+=`
-    <div class="kr-row">
-      <div class="kr-dot" style="background:${col}"></div>
-      <div class="kr-info">
-        <div class="kr-title">${k.title}</div>
-        <div class="kr-prow">
-          <div class="kr-bar"><div class="kr-bar-fill" style="width:${p}%;background:${c}"></div></div>
-          <span class="kr-pct" style="color:${c}">${p}%</span>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:5px">
-        ${isEdit
-          ?`<input class="kr-edit-inp" id="kei-${k.id}" value="${k.current}" onkeydown="if(event.key==='Enter')saveKR('${o.id}','${k.id}');if(event.key==='Escape')cancelEdit()"/>
-            <button class="btn btn-p btn-xs" onclick="saveKR('${o.id}','${k.id}')">✓</button>
-            <button class="btn btn-g btn-xs" onclick="cancelEdit()">✕</button>`
-          :`<button class="kr-val-btn" onclick="startEdit('${k.id}')">${fmt(k.current)} / ${fmt(k.target)} ${k.unit}</button>`
-        }
-        <button class="kr-del" onclick="delKR('${o.id}','${k.id}')">×</button>
-      </div>
-    </div>
-    ${ktasks.length?`<div class="kr-tasks">${ktasks.map(t=>`
-      <div class="kr-task-row">
-        <div class="kr-task-check ${t.done?'done':''}" onclick="toggleTask('${t.id}');renderGoals()">
-          ${t.done?`<svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`:''}
-        </div>
-        <span class="kr-task-text ${t.done?'done':''}">${t.text}</span>
-      </div>`).join('')}</div>`:''}`;
-  });
-  return html;
-}
-
-function toggleObj(id){
-  const el=document.getElementById('obj-krs-'+id);
-  const chev=document.getElementById('oc-'+id);
-  const open=el.style.display!=='none';
-  el.style.display=open?'none':'';
-  chev.style.transform=open?'':'rotate(180deg)';
-}
-
-// ── ROUTINES + HEATMAP ────────────────────────────────────────────────────────
-function renderRoutines(){
-  updateSubtitle('routines');
-  const freqLabel={daily:'Ежедневно',weekly:'Еженедельно',monthly:'Ежемесячно',quarterly:'Ежеквартально'};
-  const freqDotColor={daily:'#3B82F6',weekly:'#6366F1',monthly:'#8B5CF6',quarterly:'#F59E0B'};
-  const groups=['daily','weekly','monthly','quarterly'];
-  let html='';
-  groups.forEach(freq=>{
-    const rr=D.routines.filter(r=>r.freq===freq);
-    if(!rr.length)return;
-    html+=`<div class="routine-section">
-      <div class="routine-section-hd">${freqLabel[freq]}</div>`;
-    rr.forEach(r=>{
-      const due=isDue(r);const doneT=(r.h||[]).includes(td());
-      const dotCol=doneT?'#10B981':due?freqDotColor[freq]:'var(--b2)';
-      html+=`
-      <div class="r-row">
-        <div class="r-dot" style="background:${dotCol}"></div>
-        <div class="r-info">
-          <div class="r-title" style="color:${doneT?'var(--t3)':'var(--text)'}">${r.title}</div>
-          <div class="r-desc">${r.desc}</div>
-          ${r.h?.length?`<div class="r-last">Последний раз: ${r.h[r.h.length-1]}</div>`:''}
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          ${due&&!doneT?`<button class="btn btn-g btn-xs" onclick="doneRoutine('${r.id}')" style="color:var(--green);border-color:var(--green)">Готово ✓</button>`:''}
-          ${doneT?`<span class="r-done-tag">✓ Сегодня</span>`:''}
-        </div>
-      </div>
-      ${renderHeatmap(r)}`;
-    });
-    html+=`</div>`;
-  });
-  document.getElementById('body-routines').innerHTML=html;
-}
-
-function renderHeatmap(r){
-  const h=new Set(r.h||[]);
-  const WEEKS=26;
-  const now=new Date();
-  const end=new Date(now);
-  end.setDate(end.getDate()+(6-now.getDay()));
-  const start=new Date(end);
-  start.setDate(start.getDate()-WEEKS*7+1);
-  let weeks=[];let cur=new Date(start);
-  while(cur<=end){
-    const week=[];
-    for(let d=0;d<7;d++){
-      const s=cur.toISOString().split('T')[0];
-      week.push({s,done:h.has(s),future:cur>now,isToday:s===td()});
-      cur.setDate(cur.getDate()+1);
-    }
-    weeks.push(week);
-  }
-  const grid=weeks.map(w=>`<div class="hm-week">${w.map(c=>`<div class="hm-cell ${c.future?'hm-0':c.done?'hm-1':'hm-0'}"
-    style="${c.done?'background:#6366F1':''}${c.isToday&&!c.done?';box-shadow:inset 0 0 0 1.5px #6366F1':''}"
-    onmouseenter="showTip(event,'${c.s}${c.done?' ✓':''}')" onmouseleave="hideTip()"></div>`).join('')}</div>`).join('');
-
-  return `<div class="hm-wrap">
-    <div class="hm-title">${(r.h||[]).length} выполнений за всё время <span class="hm-count">· последние 26 недель</span></div>
-    <div class="hm-grid">${grid}</div>
-    <div class="hm-legend">
-      <span>Меньше</span>
-      <div class="hm-cell hm-0" style="width:10px;height:10px"></div>
-      <div class="hm-cell" style="width:10px;height:10px;background:#C7D2FE"></div>
-      <div class="hm-cell" style="width:10px;height:10px;background:#6366F1"></div>
-      <span>Больше</span>
-    </div>
-  </div>`;
-}
-
-// ── GUIDE ─────────────────────────────────────────────────────────────────────
-const GUIDE=[
-  {n:'01',t:'Что такое OKR',b:`<p><span class="hl">OKR = Objectives + Key Results.</span></p><p><span class="hl">Objective</span> — куда идёшь. Амбициозно, вдохновляет.</p><p><span class="hl">Key Result</span> — как поймёшь что дошёл. Всегда число.</p><p>Цепочка: <span class="hl">Задача → KR → Objective</span></p>`},
-  {n:'02',t:'Как писать Objective',b:`<p><span class="ok">✓ «Вывести Ordery на первую выручку»</span><br><span class="bad">✗ «Сделать 10 звонков» — это задача</span><br><span class="bad">✗ «Увеличить продажи» — нет направления</span></p><p><span class="hl">Правило:</span> цель должна немного пугать.</p>`},
-  {n:'03',t:'Как писать Key Results',b:`<p>KR — всегда число. 2–4 на цель.</p><p><span class="ok">✓ «MRR: 500 000 ₽»</span><br><span class="bad">✗ «Провести 20 встреч» — активность, не результат</span></p>`},
-  {n:'04',t:'Задачи и KR',b:`<p>Привязывай задачи к KR при добавлении — тогда на главной видна связь O → KR → Задача.</p><p><span class="hl">Правило трёх:</span> максимум 3 задачи в день которые реально сдвигают иглу.</p>`},
-  {n:'05',t:'Рутины — что и когда',b:`<p><span class="hl">Ежедневно (5 мин):</span> что сделал, что делаю, что блокирует.</p><p><span class="hl">Еженедельно пн (30 мин):</span> обнови KR цифрами.</p><p><span class="hl">Ежемесячно 1-е (1 час):</span> оцени траекторию.</p><p><span class="hl">Ежеквартально (2–3 ч):</span> ретро + новые цели.</p>`},
-  {n:'06',t:'Когда менять цели',b:`<p>Objectives — раз в квартал. KR — на monthly check-in если нереальны или условия изменились.</p><p>Оценка: 0.7–1.0 отлично · 0.4–0.6 нормально · 0–0.3 разбери почему.</p>`},
-  {n:'07',t:'Частые ошибки',b:`<p><span class="bad">✗ Больше 3 целей</span> — теряется фокус.<br><span class="bad">✗ KR = задача</span> — нужен результат.<br><span class="bad">✗ Не обновлять KR</span> — без цифр система мертва.</p>`},
+let OBJECTS=[
+  {id:'sur1',tag:'Surprise #1',color:'#6366F1'},
+  {id:'sur2',tag:'Surprise #2',color:'#0EA5E9'},
+  {id:'sur3',tag:'Surprise #3',color:'#8B5CF6'},
+  {id:'ordery',tag:'Ordery',color:'#10B981'},
 ];
 
-function renderGuide(){
-  document.getElementById('body-guide').innerHTML=GUIDE.map((g,i)=>`
-  <div class="guide-item">
-    <div class="guide-hd" onclick="toggleG(${i})">
-      <span class="guide-num">${g.n}</span>
-      <span class="guide-ttl">${g.t}</span>
-      <span class="guide-chev ${i===0?'open':''}" id="gc${i}">▾</span>
-    </div>
-    <div class="guide-bd" id="gb${i}" style="display:${i===0?'block':'none'}">${g.b}</div>
-  </div>`).join('');
+const MONTHS=[
+  {key:'dec',label:'Декабрь 2026'},
+  {key:'nov',label:'Ноябрь 2026'},
+  {key:'oct',label:'Октябрь 2026'},
+  {key:'sep',label:'Сентябрь 2026'},
+  {key:'aug',label:'Август 2026'},
+  {key:'jul',label:'Июль 2026'},
+];
+const WEEKS=['1','8','15','22'];
+
+const DEFAULTS={
+  sur1:{goal:'Открыть и стабилизировать первую точку',krq:'Точка работает, стабильная операционка',krn:'250 000 ₽ чистыми/мес'},
+  sur2:{goal:'Открыть вторую точку',krq:'Вторая точка запущена',krn:'250 000 ₽ чистыми/мес'},
+  sur3:{goal:'Открыть третью точку',krq:'Третья точка запущена',krn:'250 000 ₽ чистыми/мес'},
+  ordery:{goal:'CTO + внедрения → масштаб продаж',krq:'Команда и продукт масштабируются',krn:'750 000 ₽ чистыми/мес'},
+};
+
+const SEED={
+  'sur1|jul|15':'Открытие 15–20 июля',
+  'sur1|jul|22':'Стабилизация операционки',
+  'sur1|aug|1':'Выход на плановую выручку',
+  'sur1|dec|1':'Работает · 250к',
+  'ordery|jul|1':'Держу переговоры с ресторанами',
+  'ordery|aug|1':'Активный найм CTO',
+  'ordery|sep|1':'CTO на борту, первые 3–5 клиентов',
+  'ordery|dec|1':'20 клиентов',
+  'sur2|sep|1':'Поиск локации #2',
+  'sur2|oct|1':'Подписание + проектирование',
+  'sur2|nov|1':'Открытие',
+  'sur3|nov|1':'Поиск локации #3',
+  'sur3|dec|1':'Подписание',
+};
+
+function load(){
+  try{
+    const r=localStorage.getItem(K);
+    if(r){const p=JSON.parse(r);if(p.objects)OBJECTS=p.objects;return p.data||{};}
+  }catch{}
+  return {...SEED};
 }
-function toggleG(i){const b=document.getElementById('gb'+i);const c=document.getElementById('gc'+i);const o=b.style.display!=='none';b.style.display=o?'none':'block';c.classList.toggle('open',!o);}
-
-// ── Actions ───────────────────────────────────────────────────────────────────
-function addTask(){
-  const t=document.getElementById('ti')?.value?.trim();
-  const k=document.getElementById('tk')?.value||'';
-  if(!t)return;
-  if(!D.todayTasks)D.todayTasks=[];
-  D.todayTasks.push({id:Date.now().toString(),text:t,krId:k,done:false,date:td()});
-  document.getElementById('ti').value='';
-  save();renderAll();
+function save(){
+  localStorage.setItem(K,JSON.stringify({objects:OBJECTS,data:DATA}));
+  const s=document.getElementById('saved');s.textContent='Сохранено ✓';setTimeout(()=>s.textContent='Автосохранение',1000);
 }
+let DATA=load();
 
-function toggleTask(id){
-  const t=(D.todayTasks||[]).find(x=>x.id===id);
-  if(t)t.done=!t.done;
-  save();renderAll();
-}
+function g(id,mk,f){return DATA[id+'|'+mk+'|'+f] ?? (DEFAULTS[id]?DEFAULTS[id][f]:'') ?? '';}
 
-function delTask(id){
-  D.todayTasks=(D.todayTasks||[]).filter(x=>x.id!==id);
-  save();renderAll();
-}
+function build(){
+  let h='<thead><tr>';
+  h+='<th class="hd hd-corner c-obj">Объект</th>';
+  h+='<th class="hd hd-corner c-goal">Цель</th>';
+  h+='<th class="hd hd-corner c-krq">КР качественный</th>';
+  h+='<th class="hd hd-corner c-krn">КР количественный</th>';
+  WEEKS.forEach(w=>{h+=`<th class="week-hd">Weekly ${w}</th>`;});
+  h+='</tr></thead><tbody>';
 
-function startEdit(id){editKR=id;renderGoals();setTimeout(()=>{const e=document.getElementById('kei-'+id);if(e){e.focus();e.select();}},30);}
-function cancelEdit(){editKR=null;renderGoals();}
-
-function saveKR(oid,kid){
-  const el=document.getElementById('kei-'+kid);if(!el)return;
-  const v=parseFloat(el.value)||0;
-  const obj=D.objectives.find(o=>o.id===oid);
-  if(obj){const k=(obj.keyResults||[]).find(k=>k.id===kid);if(k)k.current=v;}
-  editKR=null;save();renderAll();
-}
-
-function delKR(oid,kid){
-  const obj=D.objectives.find(o=>o.id===oid);
-  if(obj)obj.keyResults=(obj.keyResults||[]).filter(k=>k.id!==kid);
-  save();renderAll();
-}
-
-function delObj(id){
-  if(!confirm('Удалить цель и все KR?'))return;
-  D.objectives=D.objectives.filter(o=>o.id!==id);
-  save();renderAll();
-}
-
-function doneRoutine(id){
-  const r=D.routines.find(x=>x.id===id);
-  if(r){if(!r.h)r.h=[];if(!r.h.includes(td()))r.h.push(td());}
-  save();renderAll();
-}
-
-function showAddObj(){
-  document.getElementById('add-obj').innerHTML=`
-  <div class="add-form">
-    <div style="font-size:12px;font-weight:700;color:var(--t2)">Новая цель</div>
-    <input class="inp" id="no-t" placeholder="Чего хочу достичь за квартал?"/>
-    <select class="sel" id="no-q" style="width:100%">
-      <option value="Q3 2026">Q3 2026</option><option value="Q4 2026">Q4 2026</option><option value="Q1 2027">Q1 2027</option>
-    </select>
-    <div class="form-row">
-      <button class="btn btn-p btn-xs" onclick="addObj()">Создать</button>
-      <button class="btn btn-g btn-xs" onclick="document.getElementById('add-obj').innerHTML=''">Отмена</button>
-    </div>
-  </div>`;
-  document.getElementById('no-t').focus();
+  MONTHS.forEach(m=>{
+    h+=`<tr class="month-band"><td colspan="${4+WEEKS.length}">${m.label} · Sprint review</td></tr>`;
+    OBJECTS.forEach(o=>{
+      h+='<tr>';
+      h+=`<td class="c-obj"><div class="obj"><span class="obj-dot" style="background:${o.color}"></span>${o.tag}</div></td>`;
+      h+=`<td class="c-goal editable" contenteditable="true" data-key="${o.id}|${m.key}|goal" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${g(o.id,m.key,'goal')}</span></td>`;
+      h+=`<td class="c-krq editable" contenteditable="true" data-key="${o.id}|${m.key}|krq" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${g(o.id,m.key,'krq')}</span></td>`;
+      h+=`<td class="c-krn editable" contenteditable="true" data-key="${o.id}|${m.key}|krn" oninput="onEdit(this)" spellcheck="false"><span class="cell-text">${g(o.id,m.key,'krn')}</span></td>`;
+      WEEKS.forEach(w=>{
+        const key=`${o.id}|${m.key}|${w}`;
+        const val=DATA[key]||'';
+        h+=`<td class="cell ${val?'filled':''}" contenteditable="true" data-key="${key}" oninput="onEdit(this)" spellcheck="false">${val}</td>`;
+      });
+      h+='</tr>';
+    });
+  });
+  h+='</tbody>';
+  document.getElementById('tbl').innerHTML=h;
 }
 
-function addObj(){
-  const t=document.getElementById('no-t')?.value?.trim();
-  const q=document.getElementById('no-q')?.value;
-  if(!t)return;
-  D.objectives.push({id:'o'+Date.now(),title:t,quarter:q,keyResults:[]});
-  save();renderAll();
+function onEdit(el){
+  const key=el.getAttribute('data-key');
+  const val=el.textContent.trim();
+  if(val)DATA[key]=val; else delete DATA[key];
+  if(el.classList.contains('cell'))el.classList.toggle('filled',!!val);
+  save();
 }
 
-function showAddKR(oid){
-  document.getElementById('add-kr-'+oid).innerHTML=`
-  <div class="add-form">
-    <input class="inp" id="nk-t-${oid}" placeholder="Key Result: что измеряем?"/>
-    <div class="form-row">
-      <input class="inp" id="nk-v-${oid}" type="number" placeholder="Цель (число)"/>
-      <input class="inp" id="nk-u-${oid}" placeholder="ед."/>
-    </div>
-    <div class="form-row">
-      <button class="btn btn-p btn-xs" onclick="addKR('${oid}')">Добавить</button>
-      <button class="btn btn-g btn-xs" onclick="document.getElementById('add-kr-${oid}').innerHTML=''">Отмена</button>
-    </div>
-  </div>`;
-  document.getElementById('nk-t-'+oid).focus();
+function addObject(){
+  const tag=prompt('Название объекта:');
+  if(!tag)return;
+  const colors=['#EC4899','#F59E0B','#14B8A6','#EF4444','#8B5CF6','#3B82F6'];
+  const color=colors[OBJECTS.length%colors.length];
+  OBJECTS.push({id:'obj'+Date.now(),tag,color});
+  save();build();
 }
 
-function addKR(oid){
-  const t=document.getElementById('nk-t-'+oid)?.value?.trim();
-  const v=parseFloat(document.getElementById('nk-v-'+oid)?.value);
-  const u=document.getElementById('nk-u-'+oid)?.value?.trim()||'';
-  if(!t||!v)return;
-  const obj=D.objectives.find(o=>o.id===oid);
-  if(obj){if(!obj.keyResults)obj.keyResults=[];obj.keyResults.push({id:'k'+Date.now(),title:t,current:0,target:v,unit:u});}
-  save();renderAll();
+function exportData(){
+  let csv='Объект,Цель,КР качественный,КР количественный';
+  WEEKS.forEach(w=>csv+=`,Weekly ${w}`);
+  csv+='\n';
+  MONTHS.forEach(m=>{
+    csv+=`${m.label}\n`;
+    OBJECTS.forEach(o=>{
+      const cells=[o.tag,g(o.id,m.key,'goal'),g(o.id,m.key,'krq'),g(o.id,m.key,'krn')];
+      WEEKS.forEach(w=>cells.push(DATA[`${o.id}|${m.key}|${w}`]||''));
+      csv+=cells.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(',')+'\n';
+    });
+  });
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='okr_2026.csv';
+  a.click();
 }
 
-// Tooltip
-function showTip(e,text){const t=document.getElementById('tt');t.textContent=text;t.style.display='block';t.style.left=(e.pageX+10)+'px';t.style.top=(e.pageY-28)+'px';}
-function hideTip(){document.getElementById('tt').style.display='none';}
-
-// ── Init ──────────────────────────────────────────────────────────────────────
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&editKR)cancelEdit();});
-renderAll();
+build();
 </script>
 </body>
 </html>
