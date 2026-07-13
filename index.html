@@ -14,9 +14,10 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:12px;line-height:1.5;}
 button{cursor:pointer;font-family:inherit;border:none;background:none;}
-::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar{width:9px;height:9px;}
 ::-webkit-scrollbar-track{background:var(--s2);}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:var(--t3);}
 
 .top{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
 .top-l{display:flex;align-items:center;gap:12px;}
@@ -32,68 +33,70 @@ button{cursor:pointer;font-family:inherit;border:none;background:none;}
 table{border-collapse:separate;border-spacing:0;min-width:max-content;}
 th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border);vertical-align:top;text-align:left;}
 
-.c-obj{position:sticky;left:0;z-index:5;background:var(--s2);min-width:130px;max-width:130px;padding:9px 11px;}
-.c-goal{position:sticky;left:130px;z-index:5;background:var(--s2);min-width:165px;max-width:165px;padding:9px 11px;}
-.c-kr{position:sticky;left:295px;z-index:5;background:var(--s2);min-width:150px;max-width:150px;padding:9px 11px;border-right:2px solid var(--b2);}
+/* Frozen left columns */
+.c-obj{position:sticky;left:0;z-index:5;background:var(--s2);min-width:130px;max-width:130px;padding:10px 11px;}
+.c-goal{position:sticky;left:130px;z-index:5;background:var(--s2);min-width:170px;max-width:170px;padding:10px 11px;border-right:2px solid var(--b2);}
 
-.hd{position:sticky;top:0;z-index:6;background:var(--s3);font-size:10px;font-weight:700;letter-spacing:.3px;color:var(--t3);padding:8px 11px;text-transform:uppercase;}
-.hd-corner{z-index:8!important;}
-.week-hd{position:sticky;top:0;z-index:6;background:var(--s3);font-size:10px;font-weight:600;color:var(--t2);padding:8px 8px;text-align:center;min-width:140px;max-width:140px;}
+/* Month header row */
+.month-hd{position:sticky;top:0;z-index:6;background:var(--text);color:#fff;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:8px 10px;text-align:center;border-right:2px solid var(--bg);}
+/* Week header row */
+.week-hd{position:sticky;top:34px;z-index:6;background:var(--s3);font-size:10px;font-weight:600;color:var(--t2);padding:7px 6px;text-align:center;min-width:150px;max-width:150px;}
+.week-hd.mstart{border-left:2px solid var(--b2);}
 
-.month-band td{position:sticky;left:0;background:var(--text);color:#fff;font-size:11px;font-weight:700;letter-spacing:.5px;padding:7px 11px;z-index:4;text-transform:uppercase;}
+/* Corner */
+.corner-obj{position:sticky;left:0;top:0;z-index:8;background:var(--s3);min-width:130px;}
+.corner-goal{position:sticky;left:130px;top:0;z-index:8;background:var(--s3);min-width:170px;border-right:2px solid var(--b2);}
+.hd-lbl{font-size:10px;font-weight:700;letter-spacing:.3px;color:var(--t3);text-transform:uppercase;padding:8px 11px;}
+.corner-obj2{position:sticky;left:0;top:34px;z-index:8;background:var(--s3);}
+.corner-goal2{position:sticky;left:130px;top:34px;z-index:8;background:var(--s3);border-right:2px solid var(--b2);}
 
 .obj{font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px;}
 .obj-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
 .cell-text{font-size:10px;color:var(--t2);line-height:1.4;}
 .kr-text{font-size:10px;color:var(--accent);font-weight:600;line-height:1.4;}
+.kr-mini{font-size:9px;color:var(--accent);font-weight:600;margin-top:4px;padding:3px 6px;background:#F5F6FF;border-radius:5px;display:inline-block;}
+
+/* KR row per month */
+.krmonth-cell{min-width:150px;max-width:600px;padding:5px 9px;font-size:10px;font-weight:600;color:var(--accent);background:#F5F6FF;line-height:1.4;}
+.krmonth-cell.mstart{border-left:2px solid var(--b2);}
+.krmonth-label{position:sticky;left:0;z-index:4;background:#F5F6FF;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--accent);padding:5px 11px;}
+.krmonth-label2{position:sticky;left:130px;z-index:4;background:#F5F6FF;border-right:2px solid var(--b2);}
 
 /* Week status cell */
-.wcell{min-width:140px;max-width:140px;padding:0;cursor:pointer;position:relative;background:var(--bg);vertical-align:top;}
-.wcell-inner{padding:6px 8px 6px 8px;min-height:44px;display:flex;flex-direction:column;gap:3px;}
+.wcell{min-width:150px;max-width:150px;padding:0;cursor:pointer;background:var(--bg);vertical-align:top;}
+.wcell.mstart{border-left:2px solid var(--b2);}
+.wcell-inner{padding:6px 8px;min-height:46px;display:flex;flex-direction:column;gap:3px;}
 .wcell.s-green .wcell-inner{background:var(--green-bg);}
 .wcell.s-amber .wcell-inner{background:var(--amber-bg);}
 .wcell.s-red .wcell-inner{background:var(--red-bg);}
 .wcell-dots{display:flex;gap:3px;opacity:0;transition:opacity .1s;}
 .wcell:hover .wcell-dots{opacity:1;}
 .sdot{width:12px;height:12px;border-radius:50%;cursor:pointer;border:1px solid rgba(0,0,0,.1);}
-.sdot-g{background:var(--green);}
-.sdot-a{background:var(--amber);}
-.sdot-r{background:var(--red);}
+.sdot-g{background:var(--green);}.sdot-a{background:var(--amber);}.sdot-r{background:var(--red);}
 .sdot-x{background:var(--bg);border:1px solid var(--b2);position:relative;}
 .sdot-x::after{content:'×';position:absolute;top:-3px;left:2px;font-size:11px;color:var(--t3);}
 .wcell-txt{font-size:10px;line-height:1.4;color:var(--text);outline:none;min-height:16px;}
 .wcell-txt:empty::before{content:'…';color:var(--t3);}
-.wcell-txt:focus{color:var(--text);}
 .status-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
-.sb-green{color:var(--green);}
-.sb-amber{color:var(--amber);}
-.sb-red{color:var(--red);}
-
+.sb-green{color:var(--green);}.sb-amber{color:var(--amber);}.sb-red{color:var(--red);}
 .editable:focus{outline:2px solid var(--accent);outline-offset:-2px;background:#fff;}
 
 .legend{padding:8px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--t3);display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
 .leg-item{display:flex;align-items:center;gap:5px;}
 .leg-dot{width:10px;height:10px;border-radius:50%;}
 
-/* ── MOBILE ─────────────────────────────────────────────────────────────────── */
+/* ── MOBILE ── */
 .mobile-view{display:none;}
 @media (max-width:820px){
-  .scroll{display:none;}
-  .legend{display:none;}
+  .scroll,.legend{display:none;}
   .mobile-view{display:block;height:calc(100vh - 60px);overflow-y:auto;background:var(--s2);}
   .top{padding:12px 14px;}
-  .top-goal{font-size:12px;}
-  .top-goal span{display:block;margin-left:0;margin-top:2px;}
-  .top-badge{font-size:10px;padding:2px 8px;}
-  .top-r .btn{display:none;}
-
-  /* Month selector */
+  .top-goal{font-size:12px;}.top-goal span{display:block;margin-left:0;margin-top:2px;}
+  .top-badge{font-size:10px;padding:2px 8px;}.top-r .btn{display:none;}
   .m-months{display:flex;gap:6px;overflow-x:auto;padding:12px 14px;background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;}
   .m-months::-webkit-scrollbar{display:none;}
-  .m-month-pill{flex-shrink:0;font-size:12px;font-weight:600;padding:7px 14px;border-radius:99px;background:var(--s3);color:var(--t2);white-space:nowrap;cursor:pointer;border:1px solid transparent;}
+  .m-month-pill{flex-shrink:0;font-size:12px;font-weight:600;padding:7px 14px;border-radius:99px;background:var(--s3);color:var(--t2);white-space:nowrap;cursor:pointer;}
   .m-month-pill.active{background:var(--text);color:#fff;}
-
-  /* Object card */
   .m-obj-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;margin:12px 14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);}
   .m-obj-head{padding:14px 16px;border-bottom:1px solid var(--border);}
   .m-obj-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;}
@@ -101,32 +104,21 @@ th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border)
   .m-obj-goal{font-size:11px;color:var(--t3);margin-top:5px;line-height:1.4;}
   .m-obj-kr{font-size:12px;color:var(--accent);font-weight:600;margin-top:8px;line-height:1.4;padding:6px 10px;background:#F5F6FF;border-radius:8px;}
   .m-obj-kr-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--accent);opacity:.7;display:block;margin-bottom:2px;}
-
-  /* Week rows */
   .m-week{padding:12px 16px;border-bottom:1px solid var(--border);}
   .m-week:last-child{border-bottom:none;}
   .m-week-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
   .m-week-label{font-size:11px;font-weight:600;color:var(--t2);}
   .m-week-dots{display:flex;gap:8px;}
   .m-sdot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:center;transition:all .12s;}
-  .m-sdot-g{background:var(--green-bg);}
-  .m-sdot-a{background:var(--amber-bg);}
-  .m-sdot-r{background:var(--red-bg);}
-  .m-sdot.active.m-sdot-g{border-color:var(--green);}
-  .m-sdot.active.m-sdot-a{border-color:var(--amber);}
-  .m-sdot.active.m-sdot-r{border-color:var(--red);}
+  .m-sdot-g{background:var(--green-bg);}.m-sdot-a{background:var(--amber-bg);}.m-sdot-r{background:var(--red-bg);}
+  .m-sdot.active.m-sdot-g{border-color:var(--green);}.m-sdot.active.m-sdot-a{border-color:var(--amber);}.m-sdot.active.m-sdot-r{border-color:var(--red);}
   .m-sdot-inner{width:12px;height:12px;border-radius:50%;}
-  .m-sdot-g .m-sdot-inner{background:var(--green);}
-  .m-sdot-a .m-sdot-inner{background:var(--amber);}
-  .m-sdot-r .m-sdot-inner{background:var(--red);}
+  .m-sdot-g .m-sdot-inner{background:var(--green);}.m-sdot-a .m-sdot-inner{background:var(--amber);}.m-sdot-r .m-sdot-inner{background:var(--red);}
   .m-week-txt{width:100%;font-size:13px;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 10px;outline:none;resize:none;font-family:inherit;line-height:1.4;background:var(--bg);}
   .m-week-txt:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.1);}
-  .m-week.s-green{background:var(--green-bg);}
-  .m-week.s-amber{background:var(--amber-bg);}
-  .m-week.s-red{background:var(--red-bg);}
+  .m-week.s-green{background:var(--green-bg);}.m-week.s-amber{background:var(--amber-bg);}.m-week.s-red{background:var(--red-bg);}
   .m-week.s-green .m-week-txt,.m-week.s-amber .m-week-txt,.m-week.s-red .m-week-txt{background:rgba(255,255,255,.7);}
 }
-
 </style>
 </head>
 <body>
@@ -150,14 +142,14 @@ th,td{border-right:1px solid var(--border);border-bottom:1px solid var(--border)
 <div class="mobile-view" id="mobile-view"></div>
 
 <div class="legend">
-  <span style="font-weight:600;color:var(--t2)">Клик по ячейке → выбери статус, потом впиши что удалось / что ограничило:</span>
-  <span class="leg-item"><span class="leg-dot sdot-g"></span> Продвинулся по плану</span>
-  <span class="leg-item"><span class="leg-dot sdot-a"></span> Частично / есть проблемы</span>
+  <span style="font-weight:600;color:var(--t2)">Клик по ячейке → статус, потом текст:</span>
+  <span class="leg-item"><span class="leg-dot sdot-g"></span> По плану</span>
+  <span class="leg-item"><span class="leg-dot sdot-a"></span> Частично</span>
   <span class="leg-item"><span class="leg-dot sdot-r"></span> Застряло / ограничение</span>
 </div>
 
 <script>
-const K='okr_status_2026';
+const K='okr_weeks_2026_v2';
 
 let OBJECTS=[
   {id:'sur1',tag:'Surprise #1',color:'#6366F1',goal:'Открыть и стабилизировать первую точку'},
@@ -166,20 +158,22 @@ let OBJECTS=[
   {id:'sur3',tag:'Surprise #3',color:'#8B5CF6',goal:'Открыть третью точку'},
 ];
 
+// Horizontal: months Jul→Dec with dated weeks inside
 const MONTHS=[
-  {key:'dec',label:'Декабрь 2026'},
-  {key:'nov',label:'Ноябрь 2026'},
-  {key:'oct',label:'Октябрь 2026'},
-  {key:'sep',label:'Сентябрь 2026'},
-  {key:'aug',label:'Август 2026'},
-  {key:'jul',label:'Июль 2026'},
+  {key:'jul',label:'Июль 2026',n:'07'},
+  {key:'aug',label:'Август 2026',n:'08'},
+  {key:'sep',label:'Сентябрь 2026',n:'09'},
+  {key:'oct',label:'Октябрь 2026',n:'10'},
+  {key:'nov',label:'Ноябрь 2026',n:'11'},
+  {key:'dec',label:'Декабрь 2026',n:'12'},
 ];
-const WEEKS=['1','8','15','22'];
+const WEEKDAYS=['1','8','15','22'];
+// Week label with date: 1.07, 8.07 etc
+function weekLabel(m,w){return w+'.'+m.n;}
 
-// Прогрессивная цель месяца (колонка КР)
 const MONTH_KR={
   sur1:{jul:'Открытие 15–20 июля · выход в плюс',aug:'100 000 ₽ чистыми',sep:'150 000 ₽ чистыми',oct:'200 000 ₽ чистыми',nov:'250 000 ₽ чистыми',dec:'250 000 ₽ стабильно'},
-  ordery:{jul:'Держу воронку рестораннов',aug:'CTO нанят',sep:'3–5 клиентов',oct:'8–10 клиентов',nov:'15 клиентов',dec:'20 клиентов'},
+  ordery:{jul:'Держу воронку ресторанов',aug:'CTO нанят',sep:'3–5 клиентов',oct:'8–10 клиентов',nov:'15 клиентов',dec:'20 клиентов'},
   sur2:{jul:'—',aug:'—',sep:'Локация найдена',oct:'Договор + проектирование',nov:'Открытие',dec:'100 000 ₽ первый месяц'},
   sur3:{jul:'—',aug:'—',sep:'—',oct:'—',nov:'Поиск локации',dec:'Договор подписан'},
 };
@@ -205,103 +199,93 @@ function getGoal(id){
 function getCell(key){return DATA[key]||{status:'',text:''};}
 
 function build(){
-  let h='<thead><tr>';
-  h+='<th class="hd hd-corner c-obj">Объект</th>';
-  h+='<th class="hd hd-corner c-goal">Цель</th>';
-  h+='<th class="hd hd-corner c-kr">Цель месяца (KR)</th>';
-  WEEKS.forEach(w=>{h+=`<th class="week-hd">Неделя ${w}</th>`;});
+  let h='<thead>';
+  // Row 1: months
+  h+='<tr>';
+  h+='<th class="corner-obj month-hd" style="background:var(--s3);color:var(--t3)"><div class="hd-lbl">Объект</div></th>';
+  h+='<th class="corner-goal month-hd" style="background:var(--s3);color:var(--t3)"><div class="hd-lbl">Цель</div></th>';
+  MONTHS.forEach(m=>{h+=`<th class="month-hd" colspan="${WEEKDAYS.length}">${m.label} · Sprint</th>`;});
+  h+='</tr>';
+  // Row 2: dated weeks
+  h+='<tr>';
+  h+='<th class="corner-obj2 week-hd"></th>';
+  h+='<th class="corner-goal2 week-hd"></th>';
+  MONTHS.forEach(m=>{
+    WEEKDAYS.forEach((w,wi)=>{h+=`<th class="week-hd ${wi===0?'mstart':''}">Weekly ${weekLabel(m,w)}</th>`;});
+  });
   h+='</tr></thead><tbody>';
 
-  MONTHS.forEach(m=>{
-    h+=`<tr class="month-band"><td colspan="${3+WEEKS.length}">${m.label} · Sprint review</td></tr>`;
-    OBJECTS.forEach(o=>{
-      h+='<tr>';
-      h+=`<td class="c-obj"><div class="obj"><span class="obj-dot" style="background:${o.color}"></span>${o.tag}</div></td>`;
-      h+=`<td class="c-goal editable" contenteditable="true" data-goal="${o.id}" oninput="onGoalEdit(this,'${o.id}')" spellcheck="false"><span class="cell-text">${getGoal(o.id)}</span></td>`;
-      h+=`<td class="c-kr editable" contenteditable="true" data-kr="${o.id}|${m.key}" oninput="onKREdit(this,'${o.id}','${m.key}')" spellcheck="false"><span class="kr-text">${getKR(o.id,m.key)}</span></td>`;
-      WEEKS.forEach(w=>{
+  OBJECTS.forEach(o=>{
+    // Object row: weekly status cells
+    h+='<tr>';
+    h+=`<td class="c-obj"><div class="obj"><span class="obj-dot" style="background:${o.color}"></span>${o.tag}</div></td>`;
+    h+=`<td class="c-goal editable" contenteditable="true" oninput="onGoalEdit(this,'${o.id}')" spellcheck="false"><span class="cell-text">${getGoal(o.id)}</span></td>`;
+    MONTHS.forEach(m=>{
+      WEEKDAYS.forEach((w,wi)=>{
         const key=`${o.id}|${m.key}|${w}`;
         const c=getCell(key);
         const scls=c.status?'s-'+c.status:'';
         const badge=c.status==='green'?'<span class="status-badge sb-green">✓ по плану</span>':c.status==='amber'?'<span class="status-badge sb-amber">~ частично</span>':c.status==='red'?'<span class="status-badge sb-red">✕ застряло</span>':'';
-        h+=`<td class="wcell ${scls}" data-key="${key}">
+        h+=`<td class="wcell ${scls} ${wi===0?'mstart':''}" data-key="${key}">
           <div class="wcell-inner">
             <div class="wcell-dots">
-              <span class="sdot sdot-g" onclick="setStatus(event,'${key}','green')" title="По плану"></span>
-              <span class="sdot sdot-a" onclick="setStatus(event,'${key}','amber')" title="Частично"></span>
-              <span class="sdot sdot-r" onclick="setStatus(event,'${key}','red')" title="Застряло"></span>
-              <span class="sdot sdot-x" onclick="setStatus(event,'${key}','')" title="Сбросить"></span>
+              <span class="sdot sdot-g" onclick="setStatus(event,'${key}','green')"></span>
+              <span class="sdot sdot-a" onclick="setStatus(event,'${key}','amber')"></span>
+              <span class="sdot sdot-r" onclick="setStatus(event,'${key}','red')"></span>
+              <span class="sdot sdot-x" onclick="setStatus(event,'${key}','')"></span>
             </div>
             ${badge}
             <div class="wcell-txt" contenteditable="true" onblur="onCellText('${key}',this)" onclick="event.stopPropagation()" spellcheck="false">${c.text||''}</div>
           </div>
         </td>`;
       });
-      h+='</tr>';
     });
+    h+='</tr>';
+    // KR-per-month row (spans 4 weeks each)
+    h+='<tr>';
+    h+=`<td class="krmonth-label">Цель месяца →</td>`;
+    h+=`<td class="krmonth-label2"></td>`;
+    MONTHS.forEach(m=>{
+      h+=`<td class="krmonth-cell mstart" colspan="${WEEKDAYS.length}" contenteditable="true" oninput="onKREdit(this,'${o.id}','${m.key}')" spellcheck="false">${getKR(o.id,m.key)}</td>`;
+    });
+    h+='</tr>';
   });
   h+='</tbody>';
   document.getElementById('tbl').innerHTML=h;
 }
 
-function setStatus(e,key,status){
-  e.stopPropagation();
-  const c=getCell(key);
-  c.status=status;
-  DATA[key]=c;
-  save();build();
-}
-function onCellText(key,el){
-  const c=getCell(key);
-  c.text=el.textContent.trim();
-  if(!c.status&&!c.text)delete DATA[key]; else DATA[key]=c;
-  save();
-}
-function onGoalEdit(el,id){
-  DATA[id+'|_goal']=el.textContent.trim();save();
-}
-function onKREdit(el,id,mk){
-  DATA[id+'|'+mk+'|_kr']=el.textContent.trim();save();
-}
+function setStatus(e,key,status){e.stopPropagation();const c=getCell(key);c.status=status;DATA[key]=c;save();build();}
+function onCellText(key,el){const c=getCell(key);c.text=el.textContent.trim();if(!c.status&&!c.text)delete DATA[key];else DATA[key]=c;save();}
+function onGoalEdit(el,id){DATA[id+'|_goal']=el.textContent.trim();save();}
+function onKREdit(el,id,mk){DATA[id+'|'+mk+'|_kr']=el.textContent.trim();save();}
 
 function addObject(){
   const tag=prompt('Название объекта:');if(!tag)return;
   const colors=['#EC4899','#F59E0B','#14B8A6','#EF4444','#3B82F6'];
   OBJECTS.push({id:'obj'+Date.now(),tag,color:colors[OBJECTS.length%colors.length],goal:''});
-  save();build();
+  save();build();buildMobile();
 }
 function exportData(){
   const smap={green:'ПО ПЛАНУ',amber:'ЧАСТИЧНО',red:'ЗАСТРЯЛО','':''};
-  let csv='Месяц,Объект,Цель,Цель месяца';
-  WEEKS.forEach(w=>csv+=`,Неделя ${w} статус,Неделя ${w} текст`);
+  let csv='Объект,Цель';
+  MONTHS.forEach(m=>{csv+=`,${m.label} цель`;WEEKDAYS.forEach(w=>csv+=`,${weekLabel(m,w)} статус,${weekLabel(m,w)} текст`);});
   csv+='\n';
-  MONTHS.forEach(m=>{
-    OBJECTS.forEach(o=>{
-      const cells=[m.label,o.tag,getGoal(o.id),getKR(o.id,m.key)];
-      WEEKS.forEach(w=>{const c=getCell(`${o.id}|${m.key}|${w}`);cells.push(smap[c.status||'']);cells.push(c.text||'');});
-      csv+=cells.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(',')+'\n';
-    });
+  OBJECTS.forEach(o=>{
+    const cells=[o.tag,getGoal(o.id)];
+    MONTHS.forEach(m=>{cells.push(getKR(o.id,m.key));WEEKDAYS.forEach(w=>{const c=getCell(`${o.id}|${m.key}|${w}`);cells.push(smap[c.status||'']);cells.push(c.text||'');});});
+    csv+=cells.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(',')+'\n';
   });
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='okr_2026.csv';a.click();
 }
 
-
-// ── MOBILE RENDER ─────────────────────────────────────────────────────────────
-let mobileMonth = MONTHS[MONTHS.length-1].key; // start with July (last in array = earliest)
-
+// ── Mobile ──
+let mobileMonth='jul';
 function buildMobile(){
-  const mv=document.getElementById('mobile-view');
-  if(!mv)return;
+  const mv=document.getElementById('mobile-view');if(!mv)return;
   let h='<div class="m-months">';
-  // reverse so July first on mobile (chronological)
-  const chrono=[...MONTHS].reverse();
-  chrono.forEach(m=>{
-    h+=`<div class="m-month-pill ${m.key===mobileMonth?'active':''}" onclick="setMobileMonth('${m.key}')">${m.label}</div>`;
-  });
+  MONTHS.forEach(m=>{h+=`<div class="m-month-pill ${m.key===mobileMonth?'active':''}" onclick="setMobileMonth('${m.key}')">${m.label}</div>`;});
   h+='</div>';
-
-  const mObj=MONTHS.find(m=>m.key===mobileMonth);
   OBJECTS.forEach(o=>{
     h+=`<div class="m-obj-card">
       <div class="m-obj-head">
@@ -309,13 +293,12 @@ function buildMobile(){
         <div class="m-obj-goal">${getGoal(o.id)}</div>
         <div class="m-obj-kr"><span class="m-obj-kr-label">Цель месяца</span>${getKR(o.id,mobileMonth)}</div>
       </div>`;
-    WEEKS.forEach(w=>{
-      const key=`${o.id}|${mobileMonth}|${w}`;
-      const c=getCell(key);
-      const scls=c.status?'s-'+c.status:'';
+    const mObj=MONTHS.find(m=>m.key===mobileMonth);
+    WEEKDAYS.forEach(w=>{
+      const key=`${o.id}|${mobileMonth}|${w}`;const c=getCell(key);const scls=c.status?'s-'+c.status:'';
       h+=`<div class="m-week ${scls}">
         <div class="m-week-top">
-          <span class="m-week-label">Неделя ${w}</span>
+          <span class="m-week-label">Weekly ${weekLabel(mObj,w)}</span>
           <div class="m-week-dots">
             <div class="m-sdot m-sdot-g ${c.status==='green'?'active':''}" onclick="setStatusM('${key}','green')"><div class="m-sdot-inner"></div></div>
             <div class="m-sdot m-sdot-a ${c.status==='amber'?'active':''}" onclick="setStatusM('${key}','amber')"><div class="m-sdot-inner"></div></div>
@@ -329,19 +312,9 @@ function buildMobile(){
   });
   mv.innerHTML=h;
 }
-
 function setMobileMonth(k){mobileMonth=k;buildMobile();}
-function setStatusM(key,status){
-  const c=getCell(key);
-  c.status=(c.status===status)?'':status;
-  DATA[key]=c;save();buildMobile();
-}
-function onCellTextM(key,el){
-  const c=getCell(key);
-  c.text=el.value.trim();
-  if(!c.status&&!c.text)delete DATA[key];else DATA[key]=c;
-  save();
-}
+function setStatusM(key,status){const c=getCell(key);c.status=(c.status===status)?'':status;DATA[key]=c;save();buildMobile();}
+function onCellTextM(key,el){const c=getCell(key);c.text=el.value.trim();if(!c.status&&!c.text)delete DATA[key];else DATA[key]=c;save();}
 
 build();
 buildMobile();
