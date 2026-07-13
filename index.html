@@ -324,43 +324,45 @@ function setStatusM(key,status){const c=getCell(key);c.status=(c.status===status
 function onCellTextM(key,el){const c=getCell(key);c.text=el.value.trim();if(!c.status&&!c.text)delete DATA[key];else DATA[key]=c;save();}
 
 
-// ── CLOUD SYNC (kvdb.io, бесплатно, без регистрации) ──────────────────────────
-const CLOUD_BUCKET = 'okr-amrah-84c9e4469b0376c1';
-const CLOUD_KEY = 'data2026';
-const CLOUD_URL = `https://kvdb.io/${CLOUD_BUCKET}/${CLOUD_KEY}`;
-let cloudSyncing = false;
-let lastCloudPush = 0;
+// ── CLOUD SYNC (Supabase) ─────────────────────────────────────────────────────
+const SB_URL = 'https://znlqzdrdfjowydrpsizs.supabase.co';
+const SB_KEY = 'sb_publishable_BXdK-jr2kRJ4FWwRzzqSgg_sfOaC29Y';
+const SB_ROW_ID = 'main';
+const SB_ENDPOINT = `${SB_URL}/rest/v1/okr_data`;
+const SB_HEADERS = {
+  'apikey': SB_KEY,
+  'Authorization': `Bearer ${SB_KEY}`,
+  'Content-Type': 'application/json'
+};
 
 async function cloudPush(){
   try{
-    await fetch(CLOUD_URL, {
+    // upsert row with id='main'
+    await fetch(`${SB_ENDPOINT}?on_conflict=id`, {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({objects:OBJECTS, data:DATA, ts:Date.now()})
+      headers:{...SB_HEADERS, 'Prefer':'resolution=merge-duplicates'},
+      body:JSON.stringify({id:SB_ROW_ID, payload:{objects:OBJECTS, data:DATA}, updated_at:new Date().toISOString()})
     });
-  }catch(e){}
+  }catch(e){console.error('push',e);}
 }
 
 async function cloudPull(){
   try{
-    const r = await fetch(CLOUD_URL);
+    const r = await fetch(`${SB_ENDPOINT}?id=eq.${SB_ROW_ID}&select=payload`, {headers:SB_HEADERS});
     if(r.ok){
-      const txt = await r.text();
-      if(txt){
-        const remote = JSON.parse(txt);
-        if(remote && remote.data){
-          if(remote.objects) OBJECTS = remote.objects;
-          DATA = remote.data;
-          localStorage.setItem(K, JSON.stringify({objects:OBJECTS, data:DATA}));
-          return true;
-        }
+      const rows = await r.json();
+      if(rows && rows[0] && rows[0].payload){
+        const remote = rows[0].payload;
+        if(remote.objects) OBJECTS = remote.objects;
+        if(remote.data) DATA = remote.data;
+        localStorage.setItem(K, JSON.stringify({objects:OBJECTS, data:DATA}));
+        return true;
       }
     }
-  }catch(e){}
+  }catch(e){console.error('pull',e);}
   return false;
 }
 
-// On load: pull cloud, then render
 async function initCloud(){
   const s=document.getElementById('saved');
   if(s)s.textContent='Синхронизация…';
@@ -368,6 +370,12 @@ async function initCloud(){
   if(s)s.textContent = got ? 'Синхронизировано ✓' : 'Автосохранение';
   build();
   buildMobile();
+  // авто-обновление каждые 15 сек — подтягивает изменения с других устройств
+  setInterval(async()=>{
+    if(document.activeElement && (document.activeElement.isContentEditable || document.activeElement.tagName==='TEXTAREA')) return;
+    const changed = await cloudPull();
+    if(changed){build();buildMobile();}
+  }, 15000);
 }
 
 initCloud();
