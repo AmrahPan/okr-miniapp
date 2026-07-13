@@ -182,9 +182,16 @@ function load(){
   try{const r=localStorage.getItem(K);if(r){const p=JSON.parse(r);if(p.objects)OBJECTS=p.objects;return p.data||{};}}catch{}
   return {};
 }
+let saveTimer=null;
 function save(){
   localStorage.setItem(K,JSON.stringify({objects:OBJECTS,data:DATA}));
-  const s=document.getElementById('saved');s.textContent='Сохранено ✓';setTimeout(()=>s.textContent='Автосохранение',1000);
+  const s=document.getElementById('saved');s.textContent='Сохранение…';
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{
+    await cloudPush();
+    if(s)s.textContent='Синхронизировано ✓';
+    setTimeout(()=>{if(s)s.textContent='Автосохранение';},1500);
+  },600);
 }
 let DATA=load();
 
@@ -316,8 +323,54 @@ function setMobileMonth(k){mobileMonth=k;buildMobile();}
 function setStatusM(key,status){const c=getCell(key);c.status=(c.status===status)?'':status;DATA[key]=c;save();buildMobile();}
 function onCellTextM(key,el){const c=getCell(key);c.text=el.value.trim();if(!c.status&&!c.text)delete DATA[key];else DATA[key]=c;save();}
 
-build();
-buildMobile();
+
+// ── CLOUD SYNC (kvdb.io, бесплатно, без регистрации) ──────────────────────────
+const CLOUD_BUCKET = 'okr-amrah-84c9e4469b0376c1';
+const CLOUD_KEY = 'data2026';
+const CLOUD_URL = `https://kvdb.io/${CLOUD_BUCKET}/${CLOUD_KEY}`;
+let cloudSyncing = false;
+let lastCloudPush = 0;
+
+async function cloudPush(){
+  try{
+    await fetch(CLOUD_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({objects:OBJECTS, data:DATA, ts:Date.now()})
+    });
+  }catch(e){}
+}
+
+async function cloudPull(){
+  try{
+    const r = await fetch(CLOUD_URL);
+    if(r.ok){
+      const txt = await r.text();
+      if(txt){
+        const remote = JSON.parse(txt);
+        if(remote && remote.data){
+          if(remote.objects) OBJECTS = remote.objects;
+          DATA = remote.data;
+          localStorage.setItem(K, JSON.stringify({objects:OBJECTS, data:DATA}));
+          return true;
+        }
+      }
+    }
+  }catch(e){}
+  return false;
+}
+
+// On load: pull cloud, then render
+async function initCloud(){
+  const s=document.getElementById('saved');
+  if(s)s.textContent='Синхронизация…';
+  const got = await cloudPull();
+  if(s)s.textContent = got ? 'Синхронизировано ✓' : 'Автосохранение';
+  build();
+  buildMobile();
+}
+
+initCloud();
 </script>
 </body>
 </html>
